@@ -1,3 +1,23 @@
 h1{
 	text-align: center;
+	font-weight: bold;
+	font-family: 'Alegreya Sans', sans-serif;
+}
+img {
+    display: block;
+    margin: auto;
+    width: 40%;
+}
+p{
+	text-align: center;
+	font-family: 'Alegreya Sans', sans-serif;
+	color:white;
+}
+body {
+    background-image: url("mountains.jpg");
+    background-size: cover;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 100px;
+    margin-left: 100px;
 }
