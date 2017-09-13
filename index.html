@@ -18,7 +18,12 @@
 			<p>I love solving complex problems at the intersection of humans and technology— for example, using technology to give workers rights, or using virtual reality to explore empathy.</p>
 			<p>In Summer 2017, I worked in the Stanford CS Department's, Human-Computer Interaction Group, where I researched under professor Michael Bernstein. My work focused on increasing the quality of work on Amazon Mechanical Turk. I am also working with the Marketing Team at StartX, the Stanford-affiliated startup accelerator.</p>
 			<div align=center>
-				<button type="button" id="aboutMe">More About Me</button>
+				<button type="button" id="aboutMe" onClick="showAbout()">More About Me</button>
+				<script>
+					function showAbout(){
+						document.getElementById("aboutMePage").style.visibility = "visible";
+					}
+				</script>
 				<button type="button" id ="projects">My Projects</button>
 				<button type="button" id ="contact">Contact Me </button>
 			</div>
