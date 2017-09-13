@@ -12,15 +12,29 @@
 		<h1>Hi, I'm Emily.</h1>
 	</head>
 	<body>
-		<img src="me.jpg" alt="Picture of me" float = "center">
-		<p> I'm a sophomore studying computer science at Stanford University, presently concentrating in Human-Computer Interaction.</p>
-		<p>I love solving complex problems at the intersection of humans and technology— for example, using technology to give workers rights, or using virtual reality to explore empathy.</p>
-		<p>In Summer 2017, I worked in the Stanford CS Department's, Human-Computer Interaction Group, where I researched under professor Michael Bernstein. My work focused on increasing the quality of work on Amazon Mechanical Turk. I am also working with the Marketing Team at StartX, the Stanford-affiliated startup accelerator.</p>
-		<div align=center>
-			<button type="button" id="aboutMe">More About Me</button>
-			<button type="button" id ="projects">My Projects</button>
-			<button type="button" id ="contact">Contact Me </button>
+		<div class="row" id="intro" name="intro">  
+			<img src="me.jpg" alt="Picture of me" float = "center">
+			<p> I'm a sophomore studying computer science at Stanford University, presently concentrating in Human-Computer Interaction.</p>
+			<p>I love solving complex problems at the intersection of humans and technology— for example, using technology to give workers rights, or using virtual reality to explore empathy.</p>
+			<p>In Summer 2017, I worked in the Stanford CS Department's, Human-Computer Interaction Group, where I researched under professor Michael Bernstein. My work focused on increasing the quality of work on Amazon Mechanical Turk. I am also working with the Marketing Team at StartX, the Stanford-affiliated startup accelerator.</p>
+			<div align=center>
+				<button type="button" id="aboutMe">More About Me</button>
+				<button type="button" id ="projects">My Projects</button>
+				<button type="button" id ="contact">Contact Me </button>
+			</div>
 		</div>
-		<p> test test </p>
+
+
+		<div class="row" id="aboutMePage" name="aboutMePage" style="visibility: hidden">
+			<h1>About Me</h1>
+		</div>
+
+		<div class="row" id="projectsPage" name="projectsPage" style="visibility: hidden">
+			<h1>My Projects</h1>
+		</div>
+
+		<div class="row" id="contactPage" name="contactPage" style="visibility: hidden">
+			<h1>Contact Me</h1>
+		</div>
 	</body>
 </html>

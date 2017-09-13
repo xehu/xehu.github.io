@@ -23,6 +23,7 @@ body {
 }
 button {
     background-color: #2EBEA8;
+    font-family: 'Alegreya Sans', sans-serif;
     border: none;
     border-radius: 25px;
     color: white;
