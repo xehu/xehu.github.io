@@ -2,12 +2,9 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Saira+Semi+Condensed" rel="stylesheet">
-		<!-- infinte scroll -->
-		<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
 		<!-- jquery and scripts -->
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<script src="bluebird.js"></script>
-    	<script src="index.js"></script>
 
 		<h1>Hi, I'm Emily.</h1>
 	</head>
@@ -17,29 +14,110 @@
 			<p> I'm a sophomore studying computer science at Stanford University, presently concentrating in Human-Computer Interaction.</p>
 			<p>I love solving complex problems at the intersection of humans and technology— for example, using technology to give workers rights, or using virtual reality to explore empathy.</p>
 			<p>In Summer 2017, I worked in the Stanford CS Department's, Human-Computer Interaction Group, where I researched under professor Michael Bernstein. My work focused on increasing the quality of work on Amazon Mechanical Turk. I am also working with the Marketing Team at StartX, the Stanford-affiliated startup accelerator.</p>
+
+
+			<h3>Please click each of the buttons below to learn more about me! (Click once to show info and twice to hide.)</h3>
 			<div align=center>
-				<button type="button" id="aboutMe" onClick="showAbout()">More About Me</button>
-				<script>
-					function showAbout(){
-						document.getElementById("aboutMePage").style.visibility = "visible";
-					}
-				</script>
-				<button type="button" id ="projects">My Projects</button>
-				<button type="button" id ="contact">Contact Me </button>
+				<button type="button" id="aboutMe" onClick="showPage('aboutMePage')">More About Me</button>
+				<button type="button" id ="projects" onClick = "showPage('projectsPage')">My Projects</button>
+				<button type="button" id ="contact" onClick = "showPage('contactPage')">Contact Me </button>
 			</div>
+
+			<script>
+				function showPage(pageName){
+					var page = document.getElementById(pageName)
+					if(page.style.visibility == "visible"){
+						page.style.visibility = "hidden";
+						page.style.display = "none";
+					}else{
+						page.style.visibility = "visible";
+						page.style.display = "block";
+					}
+				}
+			</script>
 		</div>
 
+		<div class="row" id="aboutMePage" name="aboutMePage" style="visibility: hidden; display:none">
+			<h2>About Me</h2>
 
-		<div class="row" id="aboutMePage" name="aboutMePage" style="visibility: hidden">
-			<h1>About Me</h1>
+			<div align=center>
+				<button type = "button" id= "funFacts" onClick="showPage('funFactsPage')">Fun Facts</button>
+				<button type = "button" id= "interestsPassions" onClick="showPage('interestsPassionsPage')">Interests and Passions</button>
+				<button type = "button" id= "education" onClick="showPage('educationPage')">Education</button>
+				<button type = "button" id= "workExperience" onClick="showPage('workExperiencePage')">Work Experience</button>
+			</div>
+			<div class id="funFactsPage" name="funFactsPage" style="visibility: hidden; display:none">
+				<h3>Fun Facts</h3>
+				<p> My full name is Xinlan Emily Hu. I was born in China and never given a middle name at birth, so I only officially took the middle name "Emily" in January 2017, when I became a naturalized U.S. citizen! I wrote a little bit about my experience of being naturalized in <a href="http://www.stanforddaily.com/2017/01/12/and-i-am-an-american/">this</a> Stanford Daily article.</p>
+				<p> In addition to being an avid writer, I am a competitive debater. I've been debating since high school and love the ability to think about a wide array of arguments—everything from international relations to social justice to finance. Debate constantly forces me to think outside the box and take on perspectives that I don't agree with, and I regularly tell people that debate has changed the way I see the world. It makes me more curious, more driven for change.</p>
+				<img src="debate.png" alt="Picture of me with my debate team" float = "center">
+				<p><em>Above: competing at Yale, Middlebury College, and Brown with members of the Stanford Debate Society.</em></p>
+			</div>
+
+			<div class id="interestsPassionsPage" name="interestsPassionsPage" style="visibility: hidden; display:none">
+				<h3>Interests and Passions</h3>
+				<p> I'm interested in UX design, finance, and consulting, and, more broadly, in anything that requires me to tackle broad, challenging tasks with both quantatitve and qualitative strategies.</p>
+				<p> I think of myself as <em>STEM meets humanities</em>—I want to use technical tools to solve problems affecting our everyday technology products, our markets, and our investments.</p>
+			</div>
+
+			<div class id="educationPage" name="educationPage" style="visibility: hidden; display:none">
+				<h3>Education</h3>
+				<p>I currently attend Stanford University, where I'm pursuing a Bachelor's of Science in Computer Science and concentrating in Human-Computer Interaction. I'm also prospectively minoring in Symbolic Systems (a mixture of linguistics, philosophy, psychology, and computer science) and Economics.</p>
+				<p><em>Graduation Date: </em> June 2020 </p>
+				<p>I graduated as valedictorian of duPont Manual High School (Louisville, KY) in 2016. I was also a United States Presidential Scholar and Coca-Cola Scholar.</p>
+			</div>
+
+
+			<div class id="workExperiencePage" name="workExperiencePage" style="visibility: hidden; display:none">
+				<h3>Work Experience</h3>
+				<p><em><strong>Undergraduate Researcher, Stanford Computer Science Department (June 2016-Present)</strong></em></p>
+					<ul>Researched under professor Michael Bernstein and PhD student Ali Alkhatib. </ul>
+					<ul>Studied the behavior of crowd workers and the ability to increase the quality of work (e.g. payment, complexity) on Amazon Mechanical Turk.</ul>
+					<ul> Working with a team, implemented software platform for workers to form communities and find better work.</ul>
+					<ul>Implemented data scraping tool, new user interface, tutorial, database communication, and updated models, among other features.</ul>
+					<br>
+
+				<p><em><strong>Marketing Intern, StartX (April 2016-Present)</strong></em></p>
+					<ul>Heading marketing for the Student In Residence (SIR) program, as well as all on-campus marketing strategies.</ul>
+					<ul>Conducted in-depth market research on Stanford's campus.</ul>
+					<ul>Designed and executed campus marketing, including targeted approaches and social media.</ul>
+					<ul>Creating and Developing a new pilot student-oriented education program.</ul>
+					<br>
+
+				<p><em><strong>Research Assistant, Virtual Human Interaction Lab (April 2016-June 2016)</strong></em></p>
+					<ul>In charge of collecting virtual reality experimental data and running simulations.</ul>
+					<ul>Collaborated on projects involving virtual immersion and empathy.</ul>
+					<ul>Led continuous improvement of lab operations and communication with participants.</ul>
+			</div>
+
 		</div>
 
-		<div class="row" id="projectsPage" name="projectsPage" style="visibility: hidden">
-			<h1>My Projects</h1>
+		<div class="row" id="projectsPage" name="projectsPage" style="visibility: hidden; display:none">
+			<h2>My Projects</h2>
+			<div align=center>
+				<button type = "button" id= "vitae" onClick="showPage('vitaePage')">Vitae: Digital Hiring Halls for Online Workers</button>
+			</div>
+
+			<div class id="vitaePage" name="vitaePage" style="visibility: hidden; display:none">
+				<h3>Vitae: Digital Hiring Halls for Online Workers</h3>
+				<p>Workers are increasingly turning toward online freelancing—also known as "gig work"—as a replacement for the tradition 9-5 job. Gig work offers increased flexibility and unparalleled opportunities to gain additional experience and advance one's career. Unfortunately, it is also open to several key drawbacks.</p>
+				<p>Namely, the online gig economy is <em>entirely unregulated and open to abuse </em>by requestors who post tedious but low-paying tasks for workers. And because workers often must start with accepting low-paying jobs to even get a foot in the door, such bad norms become self-perpetuating. Requestors take advantage of workers' willingness to accept low pay, creating a vicious cycle of poor-quality, low-paying tasks.</p>
+				<p>We call this problem <em>a market for lemons</em>, based on the economics paper of the same name. As quality norms slip, requestors distrust workers and offer increasingly lower pay. In turn, workers feel less incentive to produce good output.</p>
+				<p>Enter <em>Vitae</em>. The platform is inspired by historical hiring halls, which helped organize union workers. Our goal is to increase the complexity and payment level of tasks by organizing workers into qualification-based communities. The process of building such communities allows workers to set norms for work quality, marking certain tasks as "unacceptable." Whena a task violates a community's norms, workers can reject tasks—much in the same way that a union goes on strike—and thus cut off the labor supply until the requestor improves the task.</p>
+				<p>In this way, we hope achieve a continuous virtuous cycle of setting high quality standards and improving treatment for workers.</p>
+				<img src="vitaePoster.png" alt="Poster from Vitae Project" float = "center" style="width:70%">
+				<p><em>Above: My poster for the project, presented at the CURIS poster session in September 2017.</em></p>
+			</div>
+
 		</div>
 
-		<div class="row" id="contactPage" name="contactPage" style="visibility: hidden">
-			<h1>Contact Me</h1>
+		<div class="row" id="contactPage" name="contactPage" style="visibility: hidden; display:none">
+			<h2>Contact Me</h2>
+			<p><em>Email:</em> xehu@stanford.edu</p>
+			<p><em>Phone:</em> (502) 526-1982 </p>
+			<p><em>LinkedIn:</em> https://www.linkedin.com/in/xinlan-emily-hu/ </p>
 		</div>
+
+		<footer><br><br><br><br>Xinlan Emily Hu. Last Updated: September 2017</footer>
 	</body>
 </html>
