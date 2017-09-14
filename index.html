@@ -24,29 +24,92 @@
 			</div>
 
 			<script>
+				var opened = [];
+				
 				function showPage(pageName){
 					var page = document.getElementById(pageName)
-					if(page.style.visibility == "visible"){
-						page.style.visibility = "hidden";
-						page.style.display = "none";
-					}else{
+
+					//check if any other 'row' pages are open and close them
+					if(opened.length){
+						for(var i = 0; i < opened.length; i+=1){
+							//close anything on the same "level" as the info
+							var openedItemName = opened.pop()
+							var openedItem = document.getElementById(openedItemName);
+
+							if(openedItem==page){ //if the page is already open, hide it
+								page.style.visibility = "hidden";
+								page.style.display = "none";
+							}
+							else if(openedItem.className == page.className){ //supplants everything on the sibling level
+								openedItem.style.visibility = "hidden";
+								openedItem.style.display = "none";
+							}else if (openedItem.className=="subpage"&&page.className=="row"){ //takes care of the parent-child transition
+								var parentItem = openedItem.parentElement;
+
+								//removes all the children of an open branch when you switch from the child to a different parent
+								function removeBranch(parentItem){
+									//removes the children
+									for(childElem of parentItem.children){
+										var otherParentIndex = opened.indexOf(childElem.id);
+										if(otherParentIndex && !(childElem.id=="overview")){
+											opened.splice(otherParentIndex, 1);
+											//I also need to change the visibility of the children to false
+											if(childElem.style.visible = "visible"){
+												childElem.style.visibility = "hidden";
+												childElem.style.display = "none";
+											}
+										}
+									}
+									//also removes the parent
+									var parentIndex = opened.indexOf(parentItem.id);
+									opened.splice(parentIndex, 1);
+									parentItem.style.visibility = "hidden";
+									parentItem.style.display = "none";
+								}
+
+								//removes all the children
+								removeBranch(parentItem);
+
+
+							}else{ //add it back because it was a child---we want to keep the parents open
+								opened.push(openedItemName);
+							}
+						}
+					}
+					if (openedItem != page){ //opens a page that is not visible
 						page.style.visibility = "visible";
 						page.style.display = "block";
+						//make the parent visible, when applicable
+						if(page.className == "subpage"){
+							var parent = page.parentElement;
+							parent.style.visibility = "visible";
+							parent.style.display = "block";
+							if(opened.indexOf(parent.id) == -1){
+								opened.push(parent.id);
+							}
+						}
+						
+						//add the just opened page to the array, if it's not already there
+						if(opened.indexOf(pageName) == -1){
+							opened.push(pageName);
+						}
 					}
+					
+
 				}
 			</script>
 		</div>
 
 		<div class="row" id="aboutMePage" name="aboutMePage" style="visibility: hidden; display:none">
-			<h2>About Me</h2>
 
-			<div align=center>
+			<div class="overview" id="overview" align=center>
+				<h2>About Me</h2>
 				<button type = "button" id= "funFacts" onClick="showPage('funFactsPage')">Fun Facts</button>
 				<button type = "button" id= "interestsPassions" onClick="showPage('interestsPassionsPage')">Interests and Passions</button>
 				<button type = "button" id= "education" onClick="showPage('educationPage')">Education</button>
 				<button type = "button" id= "workExperience" onClick="showPage('workExperiencePage')">Work Experience</button>
 			</div>
-			<div class id="funFactsPage" name="funFactsPage" style="visibility: hidden; display:none">
+			<div class="subpage" id="funFactsPage" name="funFactsPage" style="visibility: hidden; display:none">
 				<h3>Fun Facts</h3>
 				<p> My full name is Xinlan Emily Hu. I was born in China and never given a middle name at birth, so I only officially took the middle name "Emily" in January 2017, when I became a naturalized U.S. citizen! I wrote a little bit about my experience of being naturalized in <a href="http://www.stanforddaily.com/2017/01/12/and-i-am-an-american/">this</a> Stanford Daily article.</p>
 				<p> In addition to being an avid writer, I am a competitive debater. I've been debating since high school and love the ability to think about a wide array of arguments—everything from international relations to social justice to finance. Debate constantly forces me to think outside the box and take on perspectives that I don't agree with, and I regularly tell people that debate has changed the way I see the world. It makes me more curious, more driven for change.</p>
@@ -54,13 +117,13 @@
 				<p><em>Above: competing at Yale, Middlebury College, and Brown with members of the Stanford Debate Society.</em></p>
 			</div>
 
-			<div class id="interestsPassionsPage" name="interestsPassionsPage" style="visibility: hidden; display:none">
+			<div class="subpage" id="interestsPassionsPage" name="interestsPassionsPage" style="visibility: hidden; display:none">
 				<h3>Interests and Passions</h3>
 				<p> I'm interested in UX design, finance, and consulting, and, more broadly, in anything that requires me to tackle broad, challenging tasks with both quantatitve and qualitative strategies.</p>
 				<p> I think of myself as <em>STEM meets humanities</em>—I want to use technical tools to solve problems affecting our everyday technology products, our markets, and our investments.</p>
 			</div>
 
-			<div class id="educationPage" name="educationPage" style="visibility: hidden; display:none">
+			<div class="subpage" id="educationPage" name="educationPage" style="visibility: hidden; display:none">
 				<h3>Education</h3>
 				<p>I currently attend Stanford University, where I'm pursuing a Bachelor's of Science in Computer Science and concentrating in Human-Computer Interaction. I'm also prospectively minoring in Symbolic Systems (a mixture of linguistics, philosophy, psychology, and computer science) and Economics.</p>
 				<p><em>Graduation Date: </em> June 2020 </p>
@@ -68,7 +131,7 @@
 			</div>
 
 
-			<div class id="workExperiencePage" name="workExperiencePage" style="visibility: hidden; display:none">
+			<div class="subpage" id="workExperiencePage" name="workExperiencePage" style="visibility: hidden; display:none">
 				<h3>Work Experience</h3>
 				<p><em><strong>Undergraduate Researcher, Stanford Computer Science Department (June 2016-Present)</strong></em></p>
 					<ul>Researched under professor Michael Bernstein and PhD student Ali Alkhatib. </ul>
@@ -93,12 +156,13 @@
 		</div>
 
 		<div class="row" id="projectsPage" name="projectsPage" style="visibility: hidden; display:none">
-			<h2>My Projects</h2>
-			<div align=center>
+			
+			<div class="overview" id="overview" align=center>
+				<h2>My Projects</h2>
 				<button type = "button" id= "vitae" onClick="showPage('vitaePage')">Vitae: Digital Hiring Halls for Online Workers</button>
 			</div>
 
-			<div class id="vitaePage" name="vitaePage" style="visibility: hidden; display:none">
+			<div class="subpage" id="vitaePage" name="vitaePage" style="visibility: hidden; display:none">
 				<h3>Vitae: Digital Hiring Halls for Online Workers</h3>
 				<p>Workers are increasingly turning toward online freelancing—also known as "gig work"—as a replacement for the tradition 9-5 job. Gig work offers increased flexibility and unparalleled opportunities to gain additional experience and advance one's career. Unfortunately, it is also open to several key drawbacks.</p>
 				<p>Namely, the online gig economy is <em>entirely unregulated and open to abuse </em>by requestors who post tedious but low-paying tasks for workers. And because workers often must start with accepting low-paying jobs to even get a foot in the door, such bad norms become self-perpetuating. Requestors take advantage of workers' willingness to accept low pay, creating a vicious cycle of poor-quality, low-paying tasks.</p>
