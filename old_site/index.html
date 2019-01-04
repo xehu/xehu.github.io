@@ -1,0 +1,200 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="index.css">
+		<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Saira+Semi+Condensed" rel="stylesheet">
+		<!-- jquery and scripts -->
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script src="bluebird.js"></script>
+
+		<h1>Hi, I'm Emily.</h1>
+	</head>
+	<body>
+		<div class="row" id="intro" name="intro">  
+			<img src="me.jpg" alt="Picture of me" float = "center">
+			<p> I'm a junior studying computer science at Stanford University, concentrating in Human-Computer Interaction.</p>
+			<p>I love solving complex problems at the intersection of humans and technology— for example, using technology to give workers rights, or using virtual reality to explore empathy.</p>
+			<p>From Summer 2017 to Winter 2018, I worked in the Stanford CS Department's Human-Computer Interaction Group, where I researched under professor Michael Bernstein. My work focused on increasing the quality of work on Amazon Mechanical Turk. I also worked with the Marketing Team at StartX, the Stanford-affiliated startup accelerator, and previously worked in the Virtual Human Interaction Lab at Stanford.</p>
+			<p>I am currently interning at Microsoft for Summer 2018, where I am working on Cortana.</p>
+			<div align=center>
+				<button type="button" id="aboutMe" onClick="showPage('aboutMePage')">More About Me</button>
+				<button type="button" id ="projects" onClick = "showPage('projectsPage')">My Projects</button>
+				<button type="button" id ="contact" onClick = "showPage('contactPage')">Contact Me </button>
+				<input type="button" onclick="location.href='blog.html';" value="My Blog" />
+			</div>
+
+			<script>
+				var opened = [];
+				
+				function showPage(pageName){
+					var page = document.getElementById(pageName)
+
+					//check if any other 'row' pages are open and close them
+					if(opened.length){
+						for(var i = 0; i < opened.length; i+=1){
+							//close anything on the same "level" as the info
+							var openedItemName = opened.pop()
+							var openedItem = document.getElementById(openedItemName);
+
+							if(openedItem==page){ //if the page is already open, hide it
+								page.style.visibility = "hidden";
+								page.style.display = "none";
+							}
+							else if(openedItem.className == page.className){ //supplants everything on the sibling level
+								openedItem.style.visibility = "hidden";
+								openedItem.style.display = "none";
+							}else if (openedItem.className=="subpage"&&page.className=="row"){ //takes care of the parent-child transition
+								var parentItem = openedItem.parentElement;
+
+								//removes all the children of an open branch when you switch from the child to a different parent
+								function removeBranch(parentItem){
+									//removes the children
+									for(childElem of parentItem.children){
+										var otherParentIndex = opened.indexOf(childElem.id);
+										if(otherParentIndex && !(childElem.id=="overview")){
+											opened.splice(otherParentIndex, 1);
+											//I also need to change the visibility of the children to false
+											if(childElem.style.visible = "visible"){
+												childElem.style.visibility = "hidden";
+												childElem.style.display = "none";
+											}
+										}
+									}
+									//also removes the parent
+									var parentIndex = opened.indexOf(parentItem.id);
+									opened.splice(parentIndex, 1);
+									parentItem.style.visibility = "hidden";
+									parentItem.style.display = "none";
+								}
+
+								//removes all the children
+								removeBranch(parentItem);
+
+
+							}else{ //add it back because it was a child---we want to keep the parents open
+								opened.push(openedItemName);
+							}
+						}
+					}
+					if (openedItem != page){ //opens a page that is not visible
+						page.style.visibility = "visible";
+						page.style.display = "block";
+						//make the parent visible, when applicable
+						if(page.className == "subpage"){
+							var parent = page.parentElement;
+							parent.style.visibility = "visible";
+							parent.style.display = "block";
+							if(opened.indexOf(parent.id) == -1){
+								opened.push(parent.id);
+							}
+						}
+						
+						//add the just opened page to the array, if it's not already there
+						if(opened.indexOf(pageName) == -1){
+							opened.push(pageName);
+						}
+					}
+					
+
+				}
+			</script>
+		</div>
+
+		<div class="row" id="aboutMePage" name="aboutMePage" style="visibility: hidden; display:none">
+
+			<div class="overview" id="overview" align=center>
+				<h2>About Me</h2>
+				<button type = "button" id= "funFacts" onClick="showPage('funFactsPage')">Fun Facts</button>
+				<button type = "button" id= "interestsPassions" onClick="showPage('interestsPassionsPage')">Interests, Generally</button>
+				<button type = "button" id= "education" onClick="showPage('educationPage')">Education</button>
+				<button type = "button" id= "workExperience" onClick="showPage('workExperiencePage')">Work Experience</button>
+			</div>
+			<div class="subpage" id="funFactsPage" name="funFactsPage" style="visibility: hidden; display:none">
+				<h3>Fun Facts</h3>
+				<p> My full name is Xinlan Emily Hu. I was born in China and never given a middle name at birth, so I only officially took the middle name "Emily" in January 2017, when I became a naturalized U.S. citizen! I wrote a little bit about my experience of being naturalized in <a href="http://www.stanforddaily.com/2017/01/12/and-i-am-an-american/">this</a> Stanford Daily article.</p>
+				<p> 
+				In addition to being an avid writer, I am a competitive debater. I've been debating since high school and love the ability to think about a wide array of arguments—everything from international relations to social justice to finance. Debate constantly forces me to think outside the box and take on perspectives that I don't agree with, and I regularly tell people that debate has changed the way I see the world. It makes me more curious, more driven for change.</p>
+				<p>
+				Finally, one of my favorite pastimes is social dancing. Dancing brings out my free and creative side---and I'm always down to learn new figures, role-reverse, and finding new dance challenges!
+				</p>
+				<img src="debate.png" alt="Picture of me with my debate team" float = "center">
+				<p><em>Above: competing at Yale, Middlebury College, and Brown with members of the Stanford Debate Society.</em></p>
+			</div>
+
+			<div class="subpage" id="interestsPassionsPage" name="interestsPassionsPage" style="visibility: hidden; display:none">
+				<h3>Interests, Generally</h3>
+				<p> Broadly, I'm interested in anything that requires me to tackle broad, challenging tasks with both quantatitve and qualitative strategies. I have an analytical mind and a technical background, and I'm excited by any opportunity where I can both be involved in scoping and design and to dig deep into numbers and code.</p>
+			</div>
+
+			<div class="subpage" id="educationPage" name="educationPage" style="visibility: hidden; display:none">
+				<h3>Education</h3>
+				<p><em>Stanford University: B.S. Computer Science; Minor, Symbolic Systems</em></p>
+				<p><em>Graduation Date: </em> June 2020</p>
+				<ul>
+					<li> I currently attend Stanford University, where I'm pursuing a Bachelor's of Science in Computer Science and concentrating in Human-Computer Interaction. I'm also  minoring in Symbolic Systems (a mixture of linguistics, philosophy, psychology, and computer science). </li>
+				</ul>
+				
+				<p><em>DuPont Manual High School</em></p>
+				<ul>
+					<li> I graduated as valedictorian of duPont Manual High School (Louisville, KY) in 2016. I was also a United States Presidential Scholar and Coca-Cola Scholar. </li>
+				</ul>>
+			</div>
+
+
+			<div class="subpage" id="workExperiencePage" name="workExperiencePage" style="visibility: hidden; display:none">
+				<h3>Work Experience</h3>
+				
+				<p><em><strong>Explorer Intern, Microsoft (June 2018-Present)
+				</strong></em></p>
+				<ul>Scoped and developed a project for the Cortana Team. </ul>
+				<br>
+
+				<p><em><strong>Undergraduate Researcher, Stanford Computer Science Department (June 2017-April 2018)</strong></em></p>
+					<ul>Researched under professor Michael Bernstein and PhD student Ali Alkhatib. </ul>
+					<ul>Studied the behavior of crowd workers and the ability to increase the quality of work (e.g. payment, complexity) on Amazon Mechanical Turk.</ul>
+					<ul> Working with a team, implemented software platform for workers to form communities and find better work.</ul>
+					<ul>Implemented data scraping tool (JavaScript), new user interface (HTML), tutorial (HTML), database communication (Node.js), and updated models (PostgreSQL), among other features.</ul>
+					<br>
+
+				<p><em><strong>Head Marketing Intern, StartX (April 2017-October 2017)</strong></em></p>
+					<ul>Conducted in-depth market research on Stanford's campus using survey methods and programmatic analysis.</ul>
+					<ul>Designed and executed marketing strategies; created new graphic designs and branding for all campus programs.</ul>
+					<ul>Creating and developing curriculum for new pilot student-oriented education program.</ul>
+					<br>
+
+				<p><em><strong>Research Assistant, Virtual Human Interaction Lab (April 2017-June 2017)</strong></em></p>
+					<ul>In charge of collecting virtual reality experimental data and running simulations via Unity and video recording.</ul>
+					<ul>Collaborated on projects involving virtual immersion and empathy.</ul>
+					<ul>Led continuous improvement of lab operations and communication with participants.</ul>
+			</div>
+
+		</div>
+
+		<div class="row" id="projectsPage" name="projectsPage" style="visibility: hidden; display:none">
+			
+			<div class="overview" id="overview" align=center>
+				<h2>My Projects</h2>
+				<button type = "button" id= "vitae" onClick="showPage('vitaePage')">Vitae: Digital Hiring Halls for Online Workers</button>
+			</div>
+
+			<div class="subpage" id="vitaePage" name="vitaePage" style="visibility: hidden; display:none">
+				<h3>Vitae: Digital Hiring Halls for Online Workers</h3>
+				<p>Workers are increasingly turning toward online freelancing—also known as "gig work"—as a replacement for the tradition 9-5 job. Gig work offers increased flexibility and unparalleled opportunities to gain additional experience and advance one's career. Unfortunately, it is also open to several key drawbacks.</p>
+				<p>Namely, the online gig economy is <em>entirely unregulated and open to abuse </em>by requestors who post tedious but low-paying tasks for workers. And because workers often must start with accepting low-paying jobs to even get a foot in the door, such bad norms become self-perpetuating. Requestors take advantage of workers' willingness to accept low pay, creating a vicious cycle of poor-quality, low-paying tasks.</p>
+				<p>We call this problem <em>a market for lemons</em>, based on the economics paper of the same name. As quality norms slip, requestors distrust workers and offer increasingly lower pay. In turn, workers feel less incentive to produce good output.</p>
+				<p>Enter <em>Vitae</em>. The platform is inspired by historical hiring halls, which helped organize union workers. Our goal is to increase the complexity and payment level of tasks by organizing workers into qualification-based communities. The process of building such communities allows workers to set norms for work quality, marking certain tasks as "unacceptable." Whena a task violates a community's norms, workers can reject tasks—much in the same way that a union goes on strike—and thus cut off the labor supply until the requestor improves the task.</p>
+				<p>In this way, we hope achieve a continuous virtuous cycle of setting high quality standards and improving treatment for workers.</p>
+				<img src="vitaePoster.png" alt="Poster from Vitae Project" float = "center" style="width:70%">
+				<p><em>Above: My poster for the project, presented at the CURIS poster session in September 2017.</em></p>
+			</div>
+		</div>
+
+		<div class="row" id="contactPage" name="contactPage" style="visibility: hidden; display:none">
+			<h2>Contact Me</h2>
+			<p><em>Email:</em> xehu@stanford.edu</p>
+			<p><em>Phone:</em> (502) 526-1982 </p>
+			<p><a href=https://www.linkedin.com/in/xinlan-emily-hu/>LinkedIn</a></p>
+			<p><a href=https://github.com/xehu>GitHub</a></p>
+		</div>
+	</body>
+		<footer><br><br><br><br>Xinlan Emily Hu. Last Updated: July 2018 (but updates are ongoing)</footer>
+</html>

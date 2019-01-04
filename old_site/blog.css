@@ -1,0 +1,43 @@
+h1{
+    padding: 10;
+    font-family: 'Damion', cursive;;
+}
+
+p{
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 20px;
+    line-height: 1.5;
+    padding: 15;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin-right: 100px;
+    margin-left: 100px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 20px;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #111;
+}
