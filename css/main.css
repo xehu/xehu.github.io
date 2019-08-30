@@ -117,8 +117,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
-  margin-top: 6rem;
-  margin-bottom: 1.8rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
 }
 
 @media only screen and (max-width:600px) {
@@ -4251,4 +4251,59 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   margin-top: 6rem;
 }
 
+
+/*Header image container*/
+/* Container holding the image and the text */
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/* Bottom left text */
+.bottom-left {
+  display: flex;
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  background: #121b5e;
+}
+
+/* Top left text */
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Bottom right text */
+.bottom-right {
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  background: #121b5e;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header-container{
+  position: absolute;
+  text-align: center;;
+  color: white;
+  left: 5%;
+  right: 5%;
+}
 /*# sourceMappingURL=main.css.map */
