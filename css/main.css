@@ -4266,7 +4266,6 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   position: absolute;
   bottom: 10%;
   left: 10%;
-  background: #121b5e;
 }
 
 /* Top left text */
