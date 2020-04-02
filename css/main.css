@@ -4300,9 +4300,9 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 .header-container{
   position: relative;
-  text-align: center;;
+  text-align: center;
   color: white;
-  left: 5%;
-  right: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 /*# sourceMappingURL=main.css.map */
