@@ -4299,7 +4299,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 .header-container{
-  position: absolute;
+  position: relative;
   text-align: center;;
   color: white;
   left: 5%;
