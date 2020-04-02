@@ -1815,10 +1815,10 @@ button::-moz-focus-inner, input::-moz-focus-inner {
   transform: translate3d(0, -50%, 0);
 }
 
-.header__logo img {
+/*.header__logo img {
   width: 165px;
   height: auto;
-}
+}*/
 
 /* -------------------------------------------------------------------
  * ## header search trigger
