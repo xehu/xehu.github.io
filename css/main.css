@@ -2232,10 +2232,10 @@ body.search-is-visible {
     transform: translate3d(-50%, 0, 0);
   }
 
-  .header__logo img {
+/*  .header__logo img {
     width: 200px;
     height: 29px;
-  }
+  }*/
 
   .header__search-trigger {
     right: 30px;
