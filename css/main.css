@@ -2385,10 +2385,10 @@ body.search-is-visible {
 }
 
 @media only screen and (max-width:400px) {
-  .header__logo img {
+/*  .header__logo img {
     width: 140px;
     height: 21px;
-  }
+  }*/
 
   .header__search-form input[type="search"] {
     font-size: 2.6rem;
