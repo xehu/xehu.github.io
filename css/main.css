@@ -1817,7 +1817,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 
 .header__logo img {
   width: 165px;
-  height: 25px;
+  height: auto;
 }
 
 /* -------------------------------------------------------------------
