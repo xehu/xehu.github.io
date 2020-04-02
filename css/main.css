@@ -2186,10 +2186,10 @@ body.search-is-visible {
     left: 30px;
   }
 
-  .header__logo img {
+/*  .header__logo img {
     width: 150px;
     height: 23px;
-  }
+  }*/
 
   .header__search-trigger {
     right: 30px;
