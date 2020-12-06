@@ -268,8 +268,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         var content = this.nextElementSibling;
         if (content.style.display === "block") {
           content.style.display = "none";
+          this.innerHTML = "Read More";
         } else {
           content.style.display = "block";
+          this.innerHTML = "Read Less";
         }
       });
     }
