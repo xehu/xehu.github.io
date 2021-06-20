@@ -43,17 +43,17 @@
     </div>
 
 
-    <!-- header
+        <!-- header
     ================================================== -->
     <header class="s-header header">
 
         <div class="header__logo">
-            <a class="logo" href="index.html">
-                <img src="images/logo.png" height="100%" alt="Homepage">
+            <a class="logo" href="/index.html">
+                <img src="/images/logo.png" alt="Homepage" width="100%" height="auto">
             </a>
-        </div> <!-- end header__logo -->
+        </div>
 
-<!--         <a class="header__search-trigger" href="#0"></a>
+       <!--  <a class="header__search-trigger" href="#0"></a>
         <div class="header__search">
 
             <form role="search" method="get" class="header__search-form" action="#">
@@ -65,48 +65,10 @@
             </form>
 
             <a href="#0" title="Close Search" class="header__overlay-close">Close</a>
-
-        </div>  end header__search -->
-
-        <a class="header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
-             <nav class="header__nav-wrap">
-
-           <h2 class="header__nav-heading h6">Navigate to</h2>
-
-           <ul class="header__nav">
-           <li><a href="index.html" title="">Home</a></li>
-<!--                 <li class="has-children">
-                    <a href="#0" title="">Categories</a>
-                    <ul class="sub-menu">
-                        <li><a href="category.html">Lifestyle</a></li>
-                        <li><a href="category.html">Health</a></li>
-                        <li><a href="category.html">Family</a></li>
-                        <li><a href="category.html">Management</a></li>
-                        <li><a href="category.html">Travel</a></li>
-                        <li><a href="category.html">Work</a></li>
-                    </ul>
-                </li>
-                <li class="has-children">
-                    <a href="#0" title="">Blog</a>
-                    <ul class="sub-menu">
-                        <li><a href="single-video.html">Video Post</a></li>
-                        <li><a href="single-audio.html">Audio Post</a></li>
-                        <li><a href="single-standard.html">Standard Post</a></li>
-                    </ul>
-                </li> -->
-<!--                 <li><a href="style-guide.html" title="">Styles</a></li> -->
-                <li><a href="projects.html" title="">Publications & Projects</a></li>
-                <li><a href=../index.html#content title="">Writing</a></li>
-                <li><a href="page-about.html" title="">My Story</a></li>
-                <li class="current"><a href="page-contact.html" title="">Contact</a></li>
-            </ul> 
-
-           <!--      <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a> -->
-
-        </nav> <!-- end header__nav-wrap -->
-
+ -->
+     <!--    </div>   --><!-- end header__search -->
+    <div id="navbar"></div>
     </header> <!-- s-header -->
-
 
     <!-- s-content
     ================================================== -->
@@ -207,8 +169,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     ================================================== -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/plugins.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="js/main.js"></script>
+    <script>
+    $(document).ready(function(){
+        jQuery.ajax({ 
+             url: "/navbar.html", dataType: "html" 
+        }).done(function( responseHtml ) {
+             $("#navbar").html(responseHtml);
+        });
+    });
+    </script>
 
 </body>
 
