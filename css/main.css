@@ -476,6 +476,10 @@ img.pull-left {
   margin: 1.5rem 3rem 0 0;
 }
 
+img.left-table {
+  margin: 0 0 3rem;
+}
+
 /* ------------------------------------------------------------------- 
  * ## tables
  * ------------------------------------------------------------------- */
@@ -4364,6 +4368,57 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+/* Responsive Table
+==================================== */
+/*source: ; https://css-tricks.com/accessible-simple-responsive-tables/*/
+
+/* Variables
+================================== */
+/* Tables
+================================== */
+.Rtable {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.Rtable-cell > h1,
+.Rtable-cell > h2,
+.Rtable-cell > h3,
+.Rtable-cell > h4,
+.Rtable-cell > h5,
+.Rtable-cell > h6 {
+  margin: 0;
+}
+/* Table column sizing
+================================== */
+.Rtable--2cols > .Rtable-cell {
+  width: 75%;
+}
+/* Responsive
+==================================== */
+@media all and (max-width: 500px) {
+  .Rtable--collapse {
+    display: block;
+  }
+  .Rtable--collapse > .Rtable-cell {
+    width: 100% !important;
+  }
+  .Rtable--collapse > .Rtable-cell--foot {
+    margin-bottom: 1em;
+  }
+}
+.no-flexbox .Rtable {
+  display: block;
+}
+.no-flexbox .Rtable > .Rtable-cell {
+  width: 100%;
+}
+.no-flexbox .Rtable > .Rtable-cell--foot {
+  margin-bottom: 1em;
 }
 
 /*# sourceMappingURL=main.css.map */
