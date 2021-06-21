@@ -52,6 +52,11 @@ Javascript Files:
 
 -------------------------------------------------------------------------------------------------------
 
+FOR LOCAL TESTING:
+
+Run this before development:
+    `python -m SimpleHTTPServer 1337`
+
 
 
 

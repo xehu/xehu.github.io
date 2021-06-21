@@ -52,21 +52,18 @@
             </a>
         </div>
 
-       <!--  <a class="header__search-trigger" href="#0"></a>
-        <div class="header__search">
+    <!-- navigation bar-->     
+    <a class="header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
+    <nav class="header__nav-wrap">
+    <h2 class="header__nav-heading h6">Navigate to</h2>
+    <ul class="header__nav">
+        <li class="current"><a href="/index.html" title="">Home</a></li>
+       <li><a href="/projects.html" title="">Publications & Projects</a></li>
+       <li><a href="/page-blog.html" title="">Blog</a></li>
+    </ul> 
+     <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>
+    </nav> <!-- end header__nav-wrap -->
 
-            <form role="search" method="get" class="header__search-form" action="#">
-                <label>
-                    <span class="hide-content">Search for:</span>
-                    <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s" title="Search for:" autocomplete="off">
-                </label>
-                <input type="submit" class="search-submit" value="Search">
-            </form>
-
-            <a href="#0" title="Close Search" class="header__overlay-close">Close</a>
- -->
-     <!--    </div>   --><!-- end header__search -->
-    <div id="navbar"></div>
     </header> <!-- s-header -->
 
 
@@ -185,17 +182,17 @@
                     </ul>
                 </div>
  -->
-                <div class="col-six">
-                    <div class="s-footer__copyright">
-                        <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</span>
-                    </div>
-                </div>
-                
-            </div>
-        </div> <!-- end s-footer__bottom -->
+    
+    <div class="col-six">
+        <div class="s-footer__copyright">
+            <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Website made with <i class="fa fa-heart" aria-hidden="true"></i> by Xinlan Emily Hu with an initial template by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </span>
+        </div>
+        </div>            
+    </div>
+    </div> <!-- end s-footer__bottom -->
 
         <div class="go-top">
             <a class="smoothscroll" title="Back to Top" href="#top"></a>
@@ -209,15 +206,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../js/plugins.js"></script>
     <script src="../js/main.js"></script>
-    <script>
-    $(document).ready(function(){
-        jQuery.ajax({ 
-             url: "/navbar.html", dataType: "html" 
-        }).done(function( responseHtml ) {
-             $("#navbar").html(responseHtml);
-        });
-    });
-    </script>
 
 </body>
 

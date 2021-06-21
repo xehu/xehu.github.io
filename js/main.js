@@ -116,7 +116,6 @@
         
         menuToggle.on('click', function(e) {
             var $this = $(this);
-
             e.preventDefault();
             e.stopPropagation();
             siteBody.addClass('nav-wrap-is-visible');

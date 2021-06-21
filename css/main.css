@@ -1038,7 +1038,6 @@ button::-moz-focus-inner, input::-moz-focus-inner {
   padding: 0;
 }
 
-
 /* =================================================================== 
  * # additional components
  *
@@ -1511,6 +1510,13 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 /* ------------------------------------------------------------------- 
  * ## entries list
  * ------------------------------------------------------------------- */
+
+.entries-wrap-centered {
+  width: 100%;
+  display:flex; 
+  align-items: center;
+}
+
 .entries-wrap {
   width: 100%;
 }
@@ -2855,7 +2861,15 @@ body.search-is-visible {
 }
 
 .s-content--no-padding-bottom {
+  background-color: #f2f2f2;
+  padding-top: 2rem;
   padding-bottom: 0;
+}
+
+.s-content--no-padding-top {
+  background-color: #f2f2f2;
+  padding-top: 0;
+  padding-bottom: 2rem;
 }
 
 .s-content--narrow .row {
@@ -2864,6 +2878,11 @@ body.search-is-visible {
 
 .s-content--top-padding {
   padding-top: 16.2rem;
+}
+
+.s-content--top-padding--no-bottom {
+  padding-top: 16.2rem;
+  padding-bottom: 0;
 }
 
 .s-content__header {
@@ -4305,4 +4324,46 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   padding-left: 5%;
   padding-right: 5%;
 }
+/* unvisited link */
+.header-container a:link {
+  color: lightblue;
+}
+/* visited link */
+.header-container a:visited {
+  color: lightblue;
+}
+/* mouse over link */
+.header-container a:hover {
+  color: lightpink;
+}
+/* selected link */
+.header-container a:active {
+  color: lightpink;
+}
+
+/* Tooltip for Index hover */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 /*# sourceMappingURL=main.css.map */
