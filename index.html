@@ -106,9 +106,7 @@
         <div class="entries-wrap-centered" style="display:flex; justify-content: center;">
             <div class="tooltip">
                 <span class="tooltiptext">Email</span>
-                <a href="mailto: xehu@wharton.upenn.edu">
-                    <i class="fas fa-envelope-square fa-3x" style="color:#121b5e; padding-left: 15%;padding-right: 15%;"></i>
-                </a>
+                <a id="email"></a>
             </div>
             <div class="tooltip">
                 <span class="tooltiptext">Twitter</span>
@@ -156,6 +154,16 @@
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/plugins.js"></script>
+    <script>
+        var email_name = "xehu"
+        var dept_name = "wharton"
+        var school_name = "upenn"
+        var full_email = email_name + "@" + dept_name + "." + school_name + ".edu"
+
+        var icon = "<i class=\"fas fa-envelope-square fa-3x\" style=\"color:#121b5e; padding-left: 15%;padding-right: 15%;\"></i>"
+
+        document.getElementById("email").innerHTML = "<a href=" + "'mailto:" + full_email + "'" + ">" + icon
+    </script>
 
 </body>
 
