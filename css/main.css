@@ -4364,6 +4364,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   position: absolute;
   z-index: 1;
   bottom: 125%;
+  left: -75%;
 }
 
 .tooltip:hover .tooltiptext {

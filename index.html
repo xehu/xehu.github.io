@@ -103,7 +103,7 @@
 
     <!-- ====== section for contact information -->
     <section class="s-content" id=contact>
-        <div class="entries-wrap-centered" style="display:flex; justify-content: center;">
+        <div class="entries-wrap-centered" style="display:flex; justify-content: space-between; padding-left: 25%; padding-right: 25%">
             <div class="tooltip">
                 <span class="tooltiptext">Email</span>
                 <a id="email"></a>
@@ -111,19 +111,19 @@
             <div class="tooltip">
                 <span class="tooltiptext">Twitter</span>
                 <a href="https://twitter.com/xemilyhu" target="_blank">
-                    <i class="fab fa-twitter-square fa-3x" style="color:#121b5e; padding-left: 15%;padding-right: 15%;"></i>
+                    <i class="fab fa-twitter-square fa-3x" style="color:#121b5e;"></i>
                 </a>
             </div>
             <div class="tooltip">
                 <span class="tooltiptext">LinkedIn</span>
                 <a href="https://www.linkedin.com/in/xinlan-emily-hu/" target="_blank">         
-                    <i class="fab fa-linkedin fa-3x" style="color:#121b5e; padding-left: 15%; padding-right: 15%;"></i>
+                    <i class="fab fa-linkedin fa-3x" style="color:#121b5e;"></i>
                 </a>
             </div>
             <div class="tooltip">
                 <span class="tooltiptext">Google Scholar</span>
                 <a href="https://scholar.google.com/citations?user=ZpWzifcAAAAJ&hl=en&oi=ao" target="_blank">
-                    <i class="ai ai-google-scholar-square ai-3x" style="color:#121b5e; padding-left: 15%; padding-right: 15%;"></i>
+                    <i class="ai ai-google-scholar-square ai-3x" style="color:#121b5e;"></i>
                 </a>
             </div>
         </div>
@@ -160,7 +160,7 @@
         var school_name = "upenn"
         var full_email = email_name + "@" + dept_name + "." + school_name + ".edu"
 
-        var icon = "<i class=\"fas fa-envelope-square fa-3x\" style=\"color:#121b5e; padding-left: 15%;padding-right: 15%;\"></i>"
+        var icon = "<i class=\"fas fa-envelope-square fa-3x\" style=\"color:#121b5e;\"></i>"
 
         document.getElementById("email").innerHTML = "<a href=" + "'mailto:" + full_email + "'" + ">" + icon
     </script>
