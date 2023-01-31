@@ -1789,12 +1789,13 @@ button::-moz-focus-inner, input::-moz-focus-inner {
  * # header
  *
  * ------------------------------------------------------------------- */
+
 .s-header {
   background-color: #FFFFFF;
   text-align: center;
   height: 78px;
   width: 100%;
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
 }
@@ -4280,15 +4281,28 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 .container {
   position: relative;
   text-align: center;
+  margin: auto;
+}
+.container.pfp { /* defines the container inside of which the photo lives*/
   color: white;
+  min-width: min-content;
+  width: 50wh;
+  max-width: 25cm;
 }
 
-/* Bottom left text */
+.profile-picture{
+  min-width: 20em;
+  width: 100%;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+/* Bottom left text -- controls the 'hey, I'm Emily'*/ 
 .bottom-left {
   display: flex;
   position: absolute;
   bottom: 10%;
-  left: 10%;
+  left: 5%;
 }
 
 /* Top left text */
@@ -4323,10 +4337,9 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 .header-container{
   position: relative;
-  text-align: center;
   color: white;
-  padding-left: 5%;
-  padding-right: 5%;
+  max-width: 30cm;
+  margin:auto;
 }
 /* unvisited link */
 .header-container a:link {
