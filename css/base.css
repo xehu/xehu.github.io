@@ -891,29 +891,4 @@ textarea {
   text-align: center;
 }
 
-/* Newly added for GDoc embed */
-.gdocbg {
-    background-color: #f2f2f2;
-    padding-top: 2rem;
-    padding-bottom: 7.2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
-    padding: 0; /* Remove padding from the parent */
-    margin: 0; /* Remove margin from the parent */
-    box-sizing: border-box; /* Include padding in the calculation */
-}
-/* Style for the iframe */
-.embed-doc {
-    width: 60vw; /* 60% of the viewport width */
-    height: 80vh; /* Adjust height as needed */
-    border: none; /* Remove border if not needed */
-}
-.iframe-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
 /*# sourceMappingURL=base.css.map */
