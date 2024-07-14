@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!— basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>CV</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body id="top">
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header header">
+
+        <div class="header__logo">
+            <a class="logo" href="/index.html">
+                <img src="/images/logo.png" alt="Homepage" width="100%" height="auto">
+            </a>
+        </div>
+
+    <!-- navigation bar-->     
+    <a class="header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
+    <nav class="header__nav-wrap">
+    <h2 class="header__nav-heading h6">Navigate to</h2>
+    <ul class="header__nav">
+        <li class="current"><a href="/index.html" title="">Home</a></li>
+       <li><a href="/projects.html" title="">Publications & Projects</a></li>
+       <li><a href="/page-blog.html" title="">Blog</a></li>
+       <li><a href="/cv.html" title="">CV</a></li>
+    </ul>
+     <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>
+    </nav> <!-- end header__nav-wrap -->
+
+    </header>
+
+
+    <!-- s-content
+    ================================================== -->
+    <section class="gdocbg">
+        <h1 class="display-1 display-1--with-line-sep">CV.</h1>
+        <iframe class="embed-doc" src="https://docs.google.com/document/d/e/2PACX-1vSY0CfswGIq9QDYlNr8NFALmQNOURObYsEbFiwhuGakpeT5Yy8A8kQ-3izqJJU-oHNhofDVyS-vlrfS/pub?embedded=true"></iframe>
+    </section>
+
+
+    <div class="col-six">
+        <div class="s-footer__copyright">
+            <p style="color: lightsteelblue; font-size: 10px;"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Website made with <i class="fa fa-heart" aria-hidden="true"></i> by Xinlan Emily Hu with an initial template by <a href="https://colorlib.com" target="_blank" style="color:lightsteelblue;">Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+        </div>
+        </div>            
+    </div>
+    </div> <!-- end s-footer__bottom -->
+
+        <div class="go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top"></a>
+        </div>
+
+    </footer> <!-- end s-footer -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+          this.innerHTML = "Read More";
+        } else {
+          content.style.display = "block";
+          this.innerHTML = "Read Less";
+        }
+      });
+    }
+    </script>
+
+</body>
+
+</html>
