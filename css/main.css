@@ -4435,7 +4435,8 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   margin-bottom: 1em;
 }
 
-/* Newly added for GDoc embed */
+/* Newly added for GDoc CV embed */
+/* Parent section styling */
 .gdocbg {
     background-color: #f2f2f2;
     padding-top: 2rem;
@@ -4444,20 +4445,41 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     justify-content: center;
     align-items: center;
     height: 100vh; /* Full viewport height */
-    padding: 0; /* Remove padding from the parent */
     margin: 0; /* Remove margin from the parent */
     box-sizing: border-box; /* Include padding in the calculation */
 }
+
+/* Wrapper for the iframe to manage padding */
+.iframe-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 /* Style for the iframe */
 .embed-doc {
     width: 60vw; /* 60% of the viewport width */
     height: 80vh; /* Adjust height as needed */
     border: none; /* Remove border if not needed */
 }
-.iframe-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+
+/* Media query for tablets and smaller devices */
+@media (max-width: 768px) {
+    .embed-doc {
+        width: 100vw;
+        height: 100vh;
+        transform: scale(0.7)
+    }
 }
+
+/* Media query for mobile devices */
+@media (max-width: 480px) {
+    .embed-doc {
+        width: 100vw;
+        height: 100vh;
+        transform: scale(0.5)
+    }
+}
+
 
 /*# sourceMappingURL=main.css.map */
