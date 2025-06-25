@@ -2432,34 +2432,37 @@ body.search-is-visible {
  * # featured section
  *
  * ------------------------------------------------------------------- */
+.featured-slider-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #121b5e;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
 .featured-slider {
     position: relative;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
     height: 600px;
     overflow: hidden;
-    box-sizing: border-box;
     background: none;
 }
 
+.featured-slider .slick-list, 
 .featured-slider .slick-track {
     height: 100% !important;
-    overflow: hidden;
-    background: none;
 }
 
 .featured-slider .slick-slide {
-    height: 600px !important;
+    height: 100% !important;
     box-sizing: border-box;
-    position: relative;
-    float: left !important;
-    display: block !important;
-    margin: 0 !important;
+    float: left;
+    display: block;
+    margin: 0;
     background: none;
-    /* width: auto; leave this unset so Slick controls it */
-    /* remove any border for slides: */
-    border: none !important;
+    border: none;
 }
 
 .featured-slider .container.pfp {
@@ -2473,21 +2476,27 @@ body.search-is-visible {
     display: block;
     background: none;
 }
-
 .profile-picture {
+    display: block;
     width: 100%;
     height: 100%;
-    display: block;
     object-fit: cover;
     object-position: center center;
+    max-width: 100%;
 }
-
-.bottom-left {
+.carousel-caption {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    padding: 40px 32px 32px 32px;
+    left: 50%;
+    bottom: 80px;
+    transform: translateX(-50%);
     z-index: 2;
+    text-align: center;
+    width: 80%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.carousel-caption h1 {
+    margin: 0;
 }
 
 .featured-slider .slick-dots {
@@ -2499,7 +2508,7 @@ body.search-is-visible {
     text-align: center;
     position: absolute;
     left: 0; right: 0;
-    bottom: 32px;
+    bottom: 10px;
     z-index: 10;
 }
 .featured-slider .slick-dots li {
@@ -2514,15 +2523,12 @@ body.search-is-visible {
     display: block;
     width: 10px;
     height: 10px;
-    line-height: 10px;
     border-radius: 50%;
     background: #fff !important;
     border: 2px solid #121b5e !important;
     padding: 0;
     margin: 0;
-    cursor: pointer;
     font: 0/0 a;
-    text-shadow: none;
     color: transparent;
     transition: background 0.2s, border-color 0.2s;
 }
@@ -2568,19 +2574,13 @@ body.search-is-visible {
 .slick-slide:not(.slick-active) {
     padding: 0 !important;
 }
-.carousel-caption {
-    position: absolute;
-    left: 50%;
-    bottom: 80px; /* controls vertical gap above the dots, adjust as wanted */
-    transform: translateX(-50%);
-    z-index: 2;
-    text-align: center;
-    width: 80%;      /* keeps text from being too wide */
-    max-width: 700px;
-    margin: 0 auto;
+
+.slick-arrow { 
+    font-size: 0 !important; 
+    color: transparent !important; 
 }
-.carousel-caption h1 {
-    margin: 0;
+.slick-arrow::before { 
+    content: '';
 }
 
 /* ------------------------------------------------------------------- 
