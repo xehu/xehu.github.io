@@ -18,10 +18,13 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
 
     <!-- script
     ================================================== -->
     <script src="js/modernizr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
     <!-- favicons
     ================================================== -->
@@ -77,12 +80,43 @@
 	    <a href="#0" class="entry__profile-pic">
     		<div class="header";>
 
-                <div class="container pfp">
-                  <img class= "profile-picture" src="images/avatars/emily-mountains.jpg" alt="picture of me">
-                  <div class="bottom-left">
-                    <h1 style="color:white;" "vertical-align: middle;"> <span style="background-color: #121b5e">Hey, I'm Emily. </span></h1>
+                <!-- Begin carousel using existing slick slider CSS/JS -->
+                <div class="featured-slider">
+                  <div class="container pfp">
+                    <img class="profile-picture" src="images/avatars/emily-mountains.jpg" alt="picture of me">
+                    <div class="carousel-caption">
+                      <h1 style="color:white; vertical-align:middle;">
+                        <span style="background-color: #121b5e">Hey, I'm Emily. </span>
+                      </h1>
+                    </div>
+                  </div>
+                  <div class="container pfp">
+                    <img class="profile-picture" src="images/avatars/emily-tct-team.jpg" alt="picture of me">
+                    <div class="carousel-caption">
+                      <h1 style="color:white; vertical-align:middle;">
+                        <span style="background-color: #121b5e">Hey, I'm Emily. </span>
+                      </h1>
+                    </div>
+                  </div>
+                  <div class="container pfp">
+                    <img class="profile-picture" src="images/avatars/emily-huntsman.jpg" alt="picture of me">
+                    <div class="carousel-caption">
+                      <h1 style="color:white; vertical-align:middle;">
+                        <span style="background-color: #121b5e">Hey, I'm Emily. </span>
+                      </h1>
+                    </div>
+                  </div>
+                  <div class="container pfp">
+                    <img class="profile-picture" src="images/avatars/emily-agh.jpg" alt="picture of me">
+                    <div class="carousel-caption">
+                      <h1 style="color:white; vertical-align:middle;">
+                        <span style="background-color: #121b5e">Hey, I'm Emily. </span>
+                      </h1>
+                    </div>
                   </div>
                 </div>
+                <!-- End carousel -->
+
        	 	</div>
 	    </a>
         <div class="header-container" style = "padding:3%; text-align: center;">
@@ -150,6 +184,7 @@
     <!-- Java Script
     ================================================== -->
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> <!-- Move this up here! -->
     <script src="js/main.js"></script>
     <script src="js/plugins.js"></script>
     <script>
