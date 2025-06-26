@@ -125,7 +125,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     margin-top: 5.1rem;
   }
-
 }
 
 h5, .h5, h6, .h6 {
@@ -1454,6 +1453,13 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 
 }
 
+@media (max-width:600px) {
+  .header-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 @media only screen and (max-width:500px) {
   .display-1 {
     font-size: 3.3rem;
@@ -2436,6 +2442,8 @@ body.search-is-visible {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
     background: #121b5e;
     box-sizing: border-box;
     position: relative;
@@ -2443,11 +2451,15 @@ body.search-is-visible {
 }
 
 .featured-slider {
-    position: relative;
-    width: 100%;
-    height: 600px;
-    overflow: hidden;
-    background: none;
+  aspect-ratio: 4/3;
+  max-height: 80vw;  /* responsive fallback */
+  min-height: 240px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: none;
 }
 
 .featured-slider .slick-list, 
@@ -2487,7 +2499,7 @@ body.search-is-visible {
 .carousel-caption {
     position: absolute;
     left: 50%;
-    bottom: 80px;
+    /*bottom: 80px;*/
     transform: translateX(-50%);
     z-index: 2;
     text-align: center;
@@ -2516,7 +2528,7 @@ body.search-is-visible {
     width: 27px;
     height: 27px;
     margin: 0;
-    padding: 9px;
+    /*padding: 9px;*/
     cursor: pointer;
 }
 .featured-slider .slick-dots li button {
@@ -2675,9 +2687,9 @@ body.search-is-visible {
 }
 
 @media only screen and (max-width:800px) {
-  .featured-slider .slick-dots {
+/*  .featured-slider .slick-dots {
     margin: 3rem 0 0 0;
-  }
+  }*/
 
   .featured__slide {
     height: 456px;
@@ -4245,11 +4257,19 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   transform: translate(-50%, -50%);
 }
 
-.header-container{
+.header-container {
   position: relative;
   color: white;
   max-width: 30cm;
-  margin:auto;
+  margin: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.header-container h1,
+.header-container > *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 /* unvisited link */
 .header-container a:link {
