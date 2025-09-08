@@ -196,9 +196,12 @@
     <script src="js/plugins.js"></script>
     <script>
         var email_name = "xehu"
-        var dept_name = "wharton"
-        var school_name = "upenn"
-        var full_email = email_name + "@" + dept_name + "." + school_name + ".edu"
+        var dept_name = ""
+        var school_name = "mit"
+       
+        var full_email = (dept_name && dept_name.trim().length > 0) 
+            ? email_name + "@" + dept_name + "." + school_name + ".edu"
+            : email_name + "@" + school_name + ".edu";
 
         var icon = "<i class=\"fas fa-envelope-square fa-3x\" style=\"color:#121b5e;\"></i>"
 
