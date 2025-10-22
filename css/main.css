@@ -1621,6 +1621,11 @@ button::-moz-focus-inner, input::-moz-focus-inner {
   transform: scale(0.5);
 }
 
+/* TEMP DEBUG: ensure AOS-hidden elements are visible if JS doesn't run.
+   This makes elements with data-aos visible (removes opacity:0) while
+   we debug. Remove this block after AOS is confirmed working. */
+/* debug override removed */
+
 .entries .item-entry__thumb:hover .item-entry__thumb-link::before {
   opacity: 1;
   visibility: visible;

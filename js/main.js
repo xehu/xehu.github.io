@@ -1,8 +1,3 @@
-/* ===================================================================
- * Wordsmith - Main JS
- *
- * ------------------------------------------------------------------- */
-
 (function($) {
 
     "use strict";
@@ -31,11 +26,15 @@
             //force page scroll position to top at page refresh
             // $('html, body').animate({ scrollTop: 0 }, 'normal');
 
-            // will first fade out the loading animation 
             $("#loader").fadeOut("slow", function() {
-                // will fade out the whole DIV that covers the website.
-                $("#preloader").delay(300).fadeOut("slow");
-            }); 
+                $("#preloader").delay(300).fadeOut("slow", function() {
+                    try {
+                        if (typeof AOS !== 'undefined' && AOS && typeof AOS.refresh === 'function') {
+                            AOS.refresh();
+                        }
+                    } catch (e) {}
+                });
+            });
        
         });
     };
@@ -217,16 +216,67 @@
    /* Animate On Scroll
     * ------------------------------------------------------ */
     var clAOS = function() {
-        
-        AOS.init( {
+        var aosEls = Array.prototype.slice.call(document.querySelectorAll('[data-aos]') || []);
+
+        var aosOptions = {
             offset: 200,
             duration: 600,
             easing: 'ease-in-sine',
             delay: 300,
             once: true,
             disable: 'mobile'
-        });
+        };
 
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init(aosOptions);
+            } catch (e) {}
+
+            try {
+                var animatedNow = aosEls.filter(function(el) { return el.classList && el.classList.contains('aos-animate'); }).length;
+            } catch (e) { animatedNow = 0; }
+
+            try {
+                var animatedNow2 = aosEls.filter(function(el) { return el.classList && el.classList.contains('aos-animate'); }).length;
+                if (animatedNow2 === 0 && aosEls.length > 0 && 'IntersectionObserver' in window) {
+                    var isMobileUA = /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent || '');
+                    if (!(aosOptions.disable === 'mobile' && isMobileUA)) {
+                        aosEls.forEach(function(el) {
+                            try {
+                                var elOffset = parseInt(el.getAttribute('data-aos-offset'), 10);
+                                if (isNaN(elOffset)) elOffset = aosOptions.offset;
+
+                                var elDelay = parseInt(el.getAttribute('data-aos-delay'), 10);
+                                if (isNaN(elDelay)) elDelay = aosOptions.delay || 0;
+
+                                var observer = new IntersectionObserver(function(entries, obs) {
+                                    entries.forEach(function(entry) {
+                                        if (entry.isIntersecting) {
+                                            if (elDelay > 0) {
+                                                try { setTimeout(function() { entry.target.classList.add('aos-animate'); }, elDelay); } catch (e) {}
+                                            } else {
+                                                try { entry.target.classList.add('aos-animate'); } catch (e) {}
+                                            }
+
+                                            if (aosOptions.once) {
+                                                try { obs.unobserve(entry.target); } catch (e) {}
+                                            }
+                                        } else {
+                                            if (!aosOptions.once) {
+                                                try { entry.target.classList.remove('aos-animate'); } catch (e) {}
+                                            }
+                                        }
+                                    });
+                                }, { root: null, rootMargin: '0px 0px -' + elOffset + 'px 0px', threshold: 0.1 });
+
+                                try { observer.observe(el); } catch (e) {}
+                            } catch (e) {}
+                        });
+                    }
+                }
+            } catch (e) {}
+
+        }
     };
 
 
