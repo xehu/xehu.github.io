@@ -2314,7 +2314,7 @@ body.search-is-visible {
 
   .header__nav > li a {
     line-height: 60px;
-    color: #000000;
+    color: rgba(0, 0, 0, 0.6);
   }
 
   .header__nav li {
@@ -2350,21 +2350,20 @@ body.search-is-visible {
   }
 
   .header__nav li:hover > a, .header__nav li:focus > a {
-    color: #111860;
+    color: #000000;
   }
 
   .header__nav li.current > a {
-    color: #111860;
-    font-weight: 700;
+    color: #000000;
   }
 
   .header__nav li ul li a {
     padding: 7.5px 1.5rem 7.5px 1.5rem;
-    color: black;
+    color: rgba(0, 0, 0, 0.6);
   }
 
   .header__nav li ul li a:hover, .header__nav li ul li a:focus {
-    color: #111860;
+    color: #000000;
   }
 
   body.nav-wrap-is-visible {
