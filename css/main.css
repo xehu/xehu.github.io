@@ -4368,31 +4368,28 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 /* Newly added for GDoc CV embed */
-/* The published Google Doc is 816px wide by nature (a 468pt content column
-   plus 72pt padding each side, content-box -- exactly 8.5in at 96dpi).
+/* The published Google Doc is 816px wide by nature: a 468pt (624px) text
+   column with 72pt (96px) of padding each side, content-box -- exactly 8.5in
+   at 96dpi. It ships no responsive styles, but its column is a max-width, so
+   it does reflow into a narrower frame.
 
-   Two regimes, meeting seamlessly at 816px:
+   The embed is never zoomed: text always renders at the document's own size.
+   Instead the frame is capped at the document's natural 816px, so once the
+   window is wide enough to show the whole thing, widening it only widens the
+   grey around it -- a document sitting on a page.
 
-   - Narrower than 816px (phones, small tablets): the iframe is given the
-     screen's width and the document REFLOWS into it. Its column is a
-     max-width, so it genuinely reflows rather than overflowing. This is the
-     important case for text size: a document laid out at the screen's own
-     width gives the mobile browser no reason to inflate text, so every
-     paragraph and table cell renders at the same size. Scaling a wide
-     document down instead makes phone browsers autosize text per block, which
-     is what made table text look smaller than body text.
-
-   - 816px and wider: the iframe keeps a fixed 816px layout width and is
-     scaled up by cv.html, which enlarges the text itself rather than padding
-     the frame with white. At exactly 816px the scale is 1, so the two
-     regimes meet with no jump. */
+   Narrower than that, the document reflows, and the only thing that gives is
+   its own side padding: cv.html pulls the iframe outward by --doc-clip so
+   some of that padding falls outside the wrapper and is clipped. The clip is
+   largest on phones, where the text needs the room, and eases back to zero as
+   the frame approaches 816px, so the page turns gradually into an ordinary
+   document rather than switching between two looks. */
 .gdocbg {
     background-color: #f2f2f2;
     display: flex;
     justify-content: center;
     align-items: start;
-    padding-top: 2rem;
-    padding-bottom: 4rem;
+    padding: 2rem clamp(16px, 3vw, 40px) 4rem;
     box-sizing: border-box;
     width: 100%;
     overflow: hidden;
@@ -4400,67 +4397,27 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 .scaled-iframe-wrapper {
-    --doc-scale: 1;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    flex-shrink: 0;
-    /* Shows the document's 468pt (624px) text column only: the iframe inside
-       is wider and hangs its padding outside this box, which clips it. */
-    width: 624px;
-    /* cv.html measures both of these; the fallbacks only matter without JS. */
-    height: calc(var(--doc-height, 1200px) * var(--doc-scale));
+    --doc-clip: 0px;
+    display: block;
+    flex-shrink: 1;
+    width: min(816px, 100%);
+    /* cv.html measures this; the fallback only matters without JS. */
+    height: var(--doc-height, 6700px);
     overflow: hidden;
-    transform: scale(var(--doc-scale));
-    transform-origin: top center;
 }
 
-/* The document carries 72pt (96px) of its own padding on each side, which we
-   cannot restyle across origins. Instead the iframe is made 192px wider than
-   its container and pulled out by 96px each way, so that padding falls outside
-   the wrapper and is clipped -- the text column then runs the full width. */
 .embed-doc {
-    width: 816px;
-    height: var(--doc-height, 1200px);
-    flex-shrink: 0;
-    /* Sized to the whole document (see cv.html) so it never scrolls
-       internally: a short iframe traps the touch gesture, which is what made
-       scrolling stick partway down the CV. The negative bottom margin also
-       clips the document's own trailing padding. */
-    margin: 0 -96px;
+    width: calc(100% + 2 * var(--doc-clip));
+    height: var(--doc-height, 6700px);
+    margin: 0 calc(-1 * var(--doc-clip));
     border: none;
     display: block;
     box-sizing: border-box;
 }
 
-/* Reflow regime: hand the document the screen's width plus the padding we are
-   clipping, and do not scale it. */
-@media (max-width: 623px) {
-    .scaled-iframe-wrapper {
-        width: 100%;
-        height: var(--doc-height, 1200px);
-        transform: none;
-    }
-
-    .embed-doc {
-        width: calc(100% + 192px);
-        flex-shrink: 1;
-    }
-}
-
-@media (max-width: 992px) {
-    .gdocbg {
-        padding-top: 1rem;
-        padding-bottom: 2rem;
-    }
-}
-
 @media (max-width: 600px) {
-    /* Not quite edge-to-edge -- an even 12px gutter so the text can breathe.
-       The document is trimmed to its last line (see cv.html), so this padding
-       is what separates the CV from the footer as well as from the edges. */
     .gdocbg {
-        padding: 0 12px 12px 12px;
+        padding: 1rem 16px 1.5rem;
     }
 }
 
