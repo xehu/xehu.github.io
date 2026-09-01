@@ -87,47 +87,83 @@
     // frame. The scale is exactly 1 at 624px, so the two regimes meet with no
     // jump; the cap stops it growing past 2x on very large monitors.
     //
-    // The iframe is also sized to the document's FULL height. A short iframe
-    // scrolls internally, and an inner scroll area swallows the touch gesture
-    // once it reaches its end -- that is what made scrolling stick partway
-    // down the page. At full height there is no inner scroll region at all.
-    // We cannot measure a cross-origin document, but its height is very
-    // nearly inversely proportional to the width of its text column (the
-    // total area of text is constant). Measured across five column widths
-    // from 304px to 608px, height = 4450000 / column - 572 fits within a few
-    // percent. SLACK then keeps it on the generous side: measured in the real
-    // embed at a 366px column, the document needs ~11,700px and the fit alone
-    // gives 11,586 -- slightly short, which clips the end of the CV. Any
-    // surplus is harmless: below its last line the document is transparent, so
-    // the extra reads as the grey band, not as blank white. If the CV grows
-    // enough to scroll inside the frame again, raise SLACK.
+    // The iframe is also sized to the whole document. A short iframe scrolls
+    // internally, and an inner scroll area swallows the touch gesture once it
+    // reaches its end -- that is what made scrolling stick partway down the
+    // page. At full height there is no inner scroll region at all.
+    //
+    // The height of a cross-origin iframe cannot be read, so the document is
+    // fetched separately (Google serves it with a permissive
+    // Access-Control-Allow-Origin) and written into a hidden same-origin
+    // iframe used purely as a measuring stick. Setting that gauge to the same
+    // width as the real frame and reading its scrollHeight gives the exact
+    // height, re-measured on every resize -- so the CV can be edited freely
+    // and nothing here needs updating. The document is plain text with no
+    // images or relative URLs, so the clone lays out identically; checked
+    // against the real embed it agreed to within 1px at every width.
+    //
+    // FALLBACK_HEIGHTS is used only if that fetch fails (offline, or Google
+    // changing its CORS policy). It goes slightly stale as the CV grows,
+    // which shows up as a little extra band above the footer -- never as
+    // clipped text, because interpolating this convex curve errs high.
     (function () {
-        var DOC_WIDTH = 624;      // visible text column, padding clipped
-        var MAX_SCALE = 2;
-        var DOC_AREA  = 4450000;  // fitted: height ~ DOC_AREA / column
-        var DOC_TRIM  = 572;
-        var SLACK     = 1.05;     // verified margin; see note below
+        var DOC_URL     = 'https://docs.google.com/document/d/e/2PACX-1vSY0CfswGIq9QDYlNr8NFALmQNOURObYsEbFiwhuGakpeT5Yy8A8kQ-3izqJJU-oHNhofDVyS-vlrfS/pub?embedded=true';
+        var DOC_WIDTH   = 624;   // visible text column, side padding clipped
+        var MAX_SCALE   = 2;
+        var SIDE_PAD    = 192;   // the document's own 96px of padding, each side
+        var TAIL_PAD    = 72;    // its trailing padding, trimmed off the bottom
+        var BODY_MARGIN = 8;     // default body margin inside the frame
+
+        var FALLBACK_HEIGHTS = [
+            [276, 17663], [316, 14334], [366, 11704], [416, 10159],
+            [466,  9203], [516,  8173], [566,  7474], [624,  6739]
+        ];
 
         var wrap = document.querySelector('.scaled-iframe-wrapper');
         if (!wrap) return;
 
-        function docHeightFor(column) {
-            return Math.ceil((DOC_AREA / column - DOC_TRIM) * SLACK);
+        var gauge = null, gaugeDoc = null;
+
+        function fallbackHeight(column) {
+            var pts = FALLBACK_HEIGHTS, last = pts.length - 1, i, a = pts[0], b = pts[1];
+
+            if (column >= pts[last][0]) return pts[last][1];
+
+            if (column > pts[0][0]) {
+                for (i = 0; i < last; i++) {
+                    if (column <= pts[i + 1][0]) { a = pts[i]; b = pts[i + 1]; break; }
+                }
+            }
+
+            // interpolate (and, below the first point, extrapolate) in 1/column,
+            // where the curve is very nearly a straight line
+            var xa = 1 / a[0], xb = 1 / b[0], x = 1 / column;
+            return a[1] + (x - xa) * (b[1] - a[1]) / (xb - xa);
+        }
+
+        function measuredHeight(column) {
+            if (!gaugeDoc) return null;
+            gauge.style.width = (column + SIDE_PAD) + 'px';
+            var h = gaugeDoc.documentElement.scrollHeight;
+            return h ? h - BODY_MARGIN : null;
         }
 
         function fitDoc() {
-            var avail = wrap.getBoundingClientRect().width || DOC_WIDTH;
+            var viewport = document.documentElement.clientWidth;
             var column, scale;
 
-            if (document.documentElement.clientWidth < DOC_WIDTH) {
-                column = avail;          // reflow regime: the column is the frame
-                scale  = null;           // let the stylesheet own the transform
+            if (viewport < DOC_WIDTH) {
+                column = wrap.getBoundingClientRect().width || viewport;
+                scale  = null;                 // reflow regime, stylesheet owns the transform
             } else {
-                column = DOC_WIDTH;      // scaled regime: fixed layout, zoomed
-                scale  = Math.min(document.documentElement.clientWidth / DOC_WIDTH, MAX_SCALE);
+                column = DOC_WIDTH;
+                scale  = Math.min(viewport / DOC_WIDTH, MAX_SCALE);
             }
 
-            wrap.style.setProperty('--doc-height', docHeightFor(column) + 'px');
+            var required = measuredHeight(column);
+            if (!required) required = fallbackHeight(column);
+
+            wrap.style.setProperty('--doc-height', Math.ceil(required - TAIL_PAD) + 'px');
 
             if (scale === null) {
                 wrap.style.removeProperty('--doc-scale');
@@ -136,9 +172,35 @@
             }
         }
 
-        fitDoc();
+        fitDoc();   // lay out immediately from the fallback, then refine
         window.addEventListener('resize', fitDoc);
         window.addEventListener('orientationchange', fitDoc);
+
+        if (!window.fetch) return;
+
+        fetch(DOC_URL, { credentials: 'omit' })
+            .then(function (response) {
+                if (!response.ok) throw new Error(response.status);
+                return response.text();
+            })
+            .then(function (html) {
+                gauge = document.createElement('iframe');
+                gauge.setAttribute('aria-hidden', 'true');
+                gauge.setAttribute('tabindex', '-1');
+                gauge.style.cssText = 'position:absolute;left:-10000px;top:0;' +
+                                      'width:816px;height:10px;visibility:hidden;border:0';
+                document.body.appendChild(gauge);
+
+                gaugeDoc = gauge.contentDocument;
+                gaugeDoc.open();
+                gaugeDoc.write(html);
+                gaugeDoc.close();
+
+                fitDoc();
+            })
+            .catch(function () {
+                gauge = gaugeDoc = null;   // keep the fallback table
+            });
     })();
     </script>
 

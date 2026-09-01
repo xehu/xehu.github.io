@@ -4456,12 +4456,11 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 @media (max-width: 600px) {
+    /* Not quite edge-to-edge -- an even 12px gutter so the text can breathe.
+       The document is trimmed to its last line (see cv.html), so this padding
+       is what separates the CV from the footer as well as from the edges. */
     .gdocbg {
-        padding-top: 0;
-        padding-bottom: 0;
-        /* Not quite edge-to-edge -- a small gutter so the text can breathe. */
-        padding-left: 12px;
-        padding-right: 12px;
+        padding: 0 12px 12px 12px;
     }
 }
 
