@@ -4365,30 +4365,35 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 /* Newly added for GDoc CV embed */
-/* Parent section styling */
-/* Outer background container: flex centering, full viewport width, moderate padding on desktop */
+/* Outer background container: flex centering, moderate padding on desktop.
+   Uses width:100% rather than 100vw -- 100vw counts the scrollbar, which
+   pushed the band a scrollbar's width off-centre. */
 .gdocbg {
     background-color: #f2f2f2;
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: start;  /* changed to 'start' for more control on vertical space */
+    align-items: start;
     padding-top: 2rem;
     padding-bottom: 4rem;
     box-sizing: border-box;
-    width: 100vw;
+    width: 100%;
     margin: 0;
 }
 
-/* The scaling wrapper: centers child, allows proportional scaling */
+/* The published Google Doc renders at a fixed page width, so it cannot reflow
+   to fill a wide window -- widening the iframe would only pad it with white.
+   Instead the whole document is scaled, which enlarges the text itself.
+   --doc-scale drives both the transform and the space the wrapper reserves,
+   so the scaled document never overlaps the footer. */
 .scaled-iframe-wrapper {
+    --doc-scale: 1;
     display: flex;
     justify-content: center;
     align-items: start;
-    /* Set a fixed reference size (matches iframe) */
     width: 900px;
-    height: 1200px;
-    transform: scale(1);
+    height: calc(1200px * var(--doc-scale));
+    transform: scale(var(--doc-scale));
     transform-origin: top center;
     transition: transform 0.3s;
 }
@@ -4402,6 +4407,25 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     box-sizing: border-box;
 }
 
+/* Large desktop: scale the document up to use the available width. */
+@media (min-width: 1500px) {
+    .scaled-iframe-wrapper {
+        --doc-scale: 1.45;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1499px) {
+    .scaled-iframe-wrapper {
+        --doc-scale: 1.25;
+    }
+}
+
+@media (min-width: 993px) and (max-width: 1199px) {
+    .scaled-iframe-wrapper {
+        --doc-scale: 1.05;
+    }
+}
+
 /* Tablets */
 @media (max-width: 992px) {
     .gdocbg {
@@ -4409,13 +4433,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
         padding-bottom: 2rem;
     }
     .scaled-iframe-wrapper {
-        transform: scale(0.7);
-        width: 900px;
-        height: 1200px;
-    }
-    .embed-doc {
-        width: 900px;
-        height: 1200px;
+        --doc-scale: 0.7;
     }
 }
 
@@ -4426,14 +4444,23 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
         padding-bottom: 0.5rem;
     }
     .scaled-iframe-wrapper {
-        transform: scale(0.46);
+        --doc-scale: 0.46;
     }
 }
 
-/* Prevent body/html scrollbars & margin push */
+/* Prevent body/html scrollbars & margin push.
+   overflow-x is set on `html` only, deliberately: the theme gives both
+   html and body `height: 100%`, so putting overflow-x on body as well turns
+   body into a viewport-height scroll container. The page then scrolls inside
+   body instead of the window, window.scrollTop() is pinned at 0, and any
+   scroll-position feature -- the back-to-top button among them -- stops
+   working. Horizontal overflow is still clipped by html. */
+html {
+    overflow-x: hidden;
+}
+
 html, body {
     margin: 0; padding: 0;
-    overflow-x: hidden;
     box-sizing: border-box;
 }
 
@@ -4536,6 +4563,18 @@ button.collapsible {
 .s-footer {
     padding-top: 3.2rem;
     padding-bottom: 4rem;
+}
+
+/* Blog index: the intro, the "Latest Writings" heading and the post grid each
+   carried their own generous spacing, which stacked into a large empty run-in.
+   Scoped to #content so the shared .s-content padding is untouched elsewhere. */
+#content {
+    padding-top: 2.4rem;
+}
+
+#content > h1 {
+    margin-top: 0;
+    margin-bottom: 1.6rem;
 }
 
 /*# sourceMappingURL=main.css.map */
