@@ -4551,6 +4551,11 @@ button.collapsible {
    multi-column footer, so the generic `footer` padding of 10.2rem is far
    more room than the content needs. */
 .s-footer {
+    /* The credit sits in a floated .col-six ([class*="col-"] floats left), and
+       it is the footer's only in-flow child -- without this the footer's box
+       collapses to its own padding and the text spills out below the painted
+       band, reading as something overlapping the footer. */
+    display: flow-root;
     padding-top: 3.2rem;
     padding-bottom: 4rem;
 }
@@ -4565,6 +4570,12 @@ button.collapsible {
     .s-footer {
         padding-top: 2rem;
         padding-bottom: 2rem;
+    }
+
+    /* Full width rather than the grid's 50%, so the credit wraps onto fewer
+       lines and the footer stays short. */
+    .s-footer .col-six {
+        width: 100%;
     }
 }
 
