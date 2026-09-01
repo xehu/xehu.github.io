@@ -78,11 +78,14 @@
     </section>
 
     <script>
-    // The embedded Google Doc is a fixed 816px wide (8.5in) and ships no
-    // responsive styles, so it is scaled rather than reflowed. Scaling to
-    // exactly (viewport / 816) makes it flush with the screen edge; the cap
-    // stops it growing past ~1.45x, at which point the band centres it and
-    // side margins appear.
+    // The embedded Google Doc is 816px wide (8.5in) and ships no responsive
+    // styles. Below that width the stylesheet hands the iframe the screen's
+    // width and the document reflows into it -- no scaling, so text stays a
+    // uniform size on phones. At 816px and above the document keeps its
+    // natural layout width and is scaled up instead, which enlarges the text
+    // rather than padding the frame. The scale is exactly 1 at 816px, so the
+    // two regimes meet with no jump; the cap stops it growing past ~1.45x,
+    // where the band centres it and side margins appear.
     (function () {
         var DOC_WIDTH = 816;
         var MAX_SCALE = 1.45;
@@ -91,8 +94,14 @@
 
         function fitDoc() {
             var avail = document.documentElement.clientWidth;
-            var scale = Math.min(avail / DOC_WIDTH, MAX_SCALE);
-            wrap.style.setProperty('--doc-scale', scale);
+
+            if (avail < DOC_WIDTH) {
+                // Reflow regime -- let the stylesheet own it.
+                wrap.style.removeProperty('--doc-scale');
+                return;
+            }
+
+            wrap.style.setProperty('--doc-scale', Math.min(avail / DOC_WIDTH, MAX_SCALE));
         }
 
         fitDoc();

@@ -4365,15 +4365,24 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 /* Newly added for GDoc CV embed */
-/* The published Google Doc is 816px wide by nature: its content column is
-   max-width:468pt with 72pt of padding each side, content-box, which is
-   exactly 8.5in at 96dpi. It ships no media queries, so it cannot reflow --
-   the only way to fit it to a screen is to scale the whole document.
-   The iframe therefore keeps a fixed 816px layout width at every size and
-   only its painted size changes, so the document always lays out identically.
-   cv.html sets --doc-scale to (viewport / 816), capped, which makes the
-   document exactly flush with the screen; past the cap it stops growing and
-   the band's centring produces side margins. */
+/* The published Google Doc is 816px wide by nature (a 468pt content column
+   plus 72pt padding each side, content-box -- exactly 8.5in at 96dpi).
+
+   Two regimes, meeting seamlessly at 816px:
+
+   - Narrower than 816px (phones, small tablets): the iframe is given the
+     screen's width and the document REFLOWS into it. Its column is a
+     max-width, so it genuinely reflows rather than overflowing. This is the
+     important case for text size: a document laid out at the screen's own
+     width gives the mobile browser no reason to inflate text, so every
+     paragraph and table cell renders at the same size. Scaling a wide
+     document down instead makes phone browsers autosize text per block, which
+     is what made table text look smaller than body text.
+
+   - 816px and wider: the iframe keeps a fixed 816px layout width and is
+     scaled up by cv.html, which enlarges the text itself rather than padding
+     the frame with white. At exactly 816px the scale is 1, so the two
+     regimes meet with no jump. */
 .gdocbg {
     background-color: #f2f2f2;
     display: flex;
@@ -4408,22 +4417,20 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     box-sizing: border-box;
 }
 
-/* Fallback ladder for when the fitting script has not run. An inline style
-   from that script wins over these. */
+/* Reflow regime: hand the document the screen's width and do not scale it. */
 @media (max-width: 815px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.9; }
+    .scaled-iframe-wrapper {
+        width: 100%;
+        height: 1200px;
+        transform: none;
+    }
+
+    .embed-doc {
+        width: 100%;
+        flex-shrink: 1;
+    }
 }
 
-@media (max-width: 700px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.75; }
-}
-
-@media (max-width: 500px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.5; }
-}
-
-/* Flush to the screen edge on phones: no band padding to compete with the
-   document's own generous internal margins. */
 @media (max-width: 992px) {
     .gdocbg {
         padding-top: 1rem;
@@ -4438,17 +4445,18 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     }
 }
 
-/* Prevent body/html scrollbars & margin push.
-   overflow-x is set on `html` only, deliberately: the theme gives both
-   html and body `height: 100%`, so putting overflow-x on body as well turns
-   body into a viewport-height scroll container. The page then scrolls inside
-   body instead of the window, window.scrollTop() is pinned at 0, and any
-   scroll-position feature -- the back-to-top button among them -- stops
-   working. Horizontal overflow is still clipped by html. */
-html {
-    overflow-x: hidden;
-}
+/* Prevent margin push.
 
+   NOTE: no `overflow-x: hidden` here, deliberately. It used to be set on html
+   and body to mask horizontal overflow, but that has two bad effects:
+   on body (which the theme sizes to 100%) it turns body into a
+   viewport-height scroll container, pinning window.scrollTop() at 0 and
+   breaking every scroll-position feature; and on html it triggers a
+   long-standing iOS Safari bug where the bottom of the page is not painted or
+   reachable until the user jiggles the scroll -- the footer appearing to hide
+   behind an overlay until you scroll around. The overflow it was hiding
+   (.gdocbg's 100vw, and the CV iframe's oversized layout box) is now fixed at
+   source, and all four pages measure scrollWidth == clientWidth without it. */
 html, body {
     margin: 0; padding: 0;
     box-sizing: border-box;
