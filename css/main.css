@@ -4560,17 +4560,25 @@ button.collapsible {
     margin-bottom: 0;
 }
 
+/* The credit runs as a single line, wrapping only once it would pass two
+   thirds of the page. The column is full width so that limit is measured
+   against the page rather than the grid's half-width cell. */
+.s-footer .col-six {
+    width: 100%;
+}
+
+@media (min-width: 601px) {
+    .s-footer__copyright p {
+        max-width: 66.667%;
+    }
+}
+
 @media (max-width: 600px) {
     .s-footer {
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
 
-    /* Full width rather than the grid's 50%, so the credit wraps onto fewer
-       lines and the footer stays short. */
-    .s-footer .col-six {
-        width: 100%;
-    }
 }
 
 /* Blog index: the intro, the "Latest Writings" heading and the post grid each
