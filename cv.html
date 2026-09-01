@@ -78,17 +78,17 @@
     </section>
 
     <script>
-    // The embedded Google Doc is 816px wide (8.5in) and ships no responsive
-    // styles. Below that width the stylesheet hands the iframe the screen's
-    // width and the document reflows into it -- no scaling, so text stays a
-    // uniform size on phones. At 816px and above the document keeps its
-    // natural layout width and is scaled up instead, which enlarges the text
-    // rather than padding the frame. The scale is exactly 1 at 816px, so the
-    // two regimes meet with no jump; the cap stops it growing past ~1.45x,
-    // where the band centres it and side margins appear.
+    // The document's text column is 624px (468pt); its own 96px side padding
+    // is clipped by the wrapper, so 624px is what is actually visible.
+    // Below 624px the stylesheet hands the iframe the screen's width and the
+    // document reflows into it -- no scaling, so text stays a uniform size on
+    // phones. At 624px and above it keeps its natural layout width and is
+    // scaled up instead, which enlarges the text rather than padding the
+    // frame. The scale is exactly 1 at 624px, so the two regimes meet with no
+    // jump; the cap stops it growing past 2x on very large monitors.
     (function () {
-        var DOC_WIDTH = 816;
-        var MAX_SCALE = 1.45;
+        var DOC_WIDTH = 624;   // visible text column, padding clipped
+        var MAX_SCALE = 2;
         var wrap = document.querySelector('.scaled-iframe-wrapper');
         if (!wrap) return;
 

@@ -71,8 +71,11 @@ html {
 
 }
 
+/* Neither element needs a height floor -- nothing here depends on a definite
+   body height, and on iOS a 100% floor is resolved against the toolbar-hidden
+   viewport, which leaves phantom scrollable space at the end of short pages. */
 html, body {
-  min-height: 100%;
+  min-height: auto;
 }
 
 body {
@@ -4402,23 +4405,32 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     justify-content: center;
     align-items: start;
     flex-shrink: 0;
-    width: 816px;
+    /* Shows the document's 468pt (624px) text column only: the iframe inside
+       is wider and hangs its padding outside this box, which clips it. */
+    width: 624px;
     height: calc(1200px * var(--doc-scale));
+    overflow: hidden;
     transform: scale(var(--doc-scale));
     transform-origin: top center;
 }
 
+/* The document carries 72pt (96px) of its own padding on each side, which we
+   cannot restyle across origins. Instead the iframe is made 192px wider than
+   its container and pulled out by 96px each way, so that padding falls outside
+   the wrapper and is clipped -- the text column then runs the full width. */
 .embed-doc {
     width: 816px;
     height: 1200px;
     flex-shrink: 0;
+    margin: 0 -96px;
     border: none;
     display: block;
     box-sizing: border-box;
 }
 
-/* Reflow regime: hand the document the screen's width and do not scale it. */
-@media (max-width: 815px) {
+/* Reflow regime: hand the document the screen's width plus the padding we are
+   clipping, and do not scale it. */
+@media (max-width: 623px) {
     .scaled-iframe-wrapper {
         width: 100%;
         height: 1200px;
@@ -4426,7 +4438,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     }
 
     .embed-doc {
-        width: 100%;
+        width: calc(100% + 192px);
         flex-shrink: 1;
     }
 }
@@ -4460,6 +4472,15 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 html, body {
     margin: 0; padding: 0;
     box-sizing: border-box;
+}
+
+/* Stop the rubber-band overscroll at the end of the page. Past the last
+   element there is nothing to paint but the canvas, which is the same navy as
+   the footer, so bouncing past the bottom shows a blank navy area where the
+   footer should be -- the footer appearing to hide until you scroll back and
+   creep down. */
+html {
+    overscroll-behavior-y: none;
 }
 
 
@@ -4564,6 +4585,15 @@ button.collapsible {
        collapses to its own padding and the text spills out below the painted
        band, reading as something overlapping the footer. */
     display: flow-root;
+
+    /* The footer had no background of its own: the navy came from body, so
+       there was no actual band, just page canvas. Anything that moved the
+       credit out of view (an overscroll bounce, a toolbar resize) then left
+       plain navy that looks exactly like an empty overlay covering the
+       footer. With its own background the footer is a real band that always
+       paints behind its own text. */
+    background-color: #111860;
+
     padding-top: 3.2rem;
     padding-bottom: 4rem;
 }
