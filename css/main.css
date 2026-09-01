@@ -4438,4 +4438,104 @@ html, body {
 }
 
 
+/* ===================================================================
+ * # publications list (projects.html)
+ * ------------------------------------------------------------------- */
+
+/* Thumbnail column scales continuously with the viewport, so the layout
+   never jumps between an "icons" and a "no icons" state. */
+.Rtable {
+    --thumb: clamp(88px, 15vw, 150px);
+    --thumb-gutter: 2.4rem;
+    --entry-gap: 3.5rem;
+}
+
+/* Read More toggle: compact, tucked under the citation it belongs to */
+button.collapsible {
+    display: block;
+    width: -webkit-fit-content;
+    width: fit-content;
+    height: auto;
+    line-height: 1.4;
+    padding: .7rem 1.6rem;
+    margin: .8rem 0 0 0;
+    letter-spacing: .15rem;
+}
+
+/* Gutter between entries, so each entry reads as one block */
+.Rtable-cell {
+    padding-bottom: var(--entry-gap);
+}
+
+/* The image is taken out of flow so the citation alone sets the row height,
+   and scales down on short entries to keep every row flush. */
+.Rtable--2cols > .Rtable-cell--thumb {
+    position: relative;
+    width: var(--thumb);
+    padding-bottom: 0;
+}
+
+.Rtable-cell--thumb > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100% - var(--entry-gap));
+}
+
+/* Citation column fills exactly the rest of the line, so the thumbnail and
+   its citation can never wrap apart onto separate rows. */
+.Rtable--2cols > .Rtable-cell:not(.Rtable-cell--thumb) {
+    width: calc(100% - var(--thumb));
+    padding-left: var(--thumb-gutter);
+}
+
+/* Narrow screens keep the same side-by-side shape rather than switching to a
+   stacked one -- the thumbnail just clamps to its minimum. Overrides the
+   generic .Rtable--collapse stacking, which orphaned each image from its
+   citation and left a large gap between them. */
+@media all and (max-width: 500px) {
+    .Rtable--collapse {
+        display: flex;
+    }
+    .Rtable--2cols > .Rtable-cell--thumb {
+        width: var(--thumb) !important;
+    }
+    .Rtable--2cols > .Rtable-cell:not(.Rtable-cell--thumb) {
+        width: calc(100% - var(--thumb)) !important;
+    }
+}
+
+/* Titles step down so they still wrap sensibly beside a thumbnail. */
+@media all and (max-width: 700px) {
+    .Rtable {
+        --thumb-gutter: 1.6rem;
+        --entry-gap: 2.8rem;
+    }
+    .Rtable-cell h2 {
+        font-size: 2.2rem;
+    }
+}
+
+/* Smallest screens: give the citation back as much width as possible. */
+@media all and (max-width: 420px) {
+    .Rtable {
+        --thumb: 72px;
+        --thumb-gutter: 1.2rem;
+    }
+    .Rtable-cell h2 {
+        font-size: 2rem;
+    }
+}
+
+/* These pages carry only the one-line credit, not the template's full
+   multi-column footer, so the generic `footer` padding of 10.2rem is far
+   more room than the content needs. */
+.s-footer {
+    padding-top: 3.2rem;
+    padding-bottom: 4rem;
+}
+
 /*# sourceMappingURL=main.css.map */
