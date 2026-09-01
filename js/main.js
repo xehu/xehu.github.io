@@ -316,20 +316,32 @@
    /* Back to Top
     * ------------------------------------------------------ */
     var clBackToTop = function() {
-        
+
         var pxShow      = 500,
-            goTopButton = $(".go-top")
+            goTopButton = $(".go-top"),
+            $footer     = $(".s-footer");
 
-        // Show or hide the button
-        if ($(window).scrollTop() >= pxShow) goTopButton.addClass('link-is-visible');
+        // The button is fixed to the bottom-right, so once the footer scrolls
+        // into view it sits on top of the footer -- a dark square hovering over
+        // the dark footer, which reads as something blocking the end of the
+        // page. Hide it again as soon as the footer is reached.
+        function footerInView() {
+            if (!$footer.length) return false;
+            return ($(window).scrollTop() + $(window).height()) > $footer.offset().top;
+        }
 
-        $(window).on('scroll', function() {
-            if ($(window).scrollTop() >= pxShow) {
-                if(!goTopButton.hasClass('link-is-visible')) goTopButton.addClass('link-is-visible')
+        function updateGoTop() {
+            if ($(window).scrollTop() >= pxShow && !footerInView()) {
+                if (!goTopButton.hasClass('link-is-visible')) goTopButton.addClass('link-is-visible');
             } else {
-                goTopButton.removeClass('link-is-visible')
+                goTopButton.removeClass('link-is-visible');
             }
-        });
+        }
+
+        updateGoTop();
+
+        $(window).on('scroll', updateGoTop);
+        $(window).on('resize', updateGoTop);
     };
 
 

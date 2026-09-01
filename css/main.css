@@ -72,7 +72,7 @@ html {
 }
 
 html, body {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -4365,14 +4365,17 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 /* Newly added for GDoc CV embed */
-/* Outer background container: flex centering, moderate padding on desktop.
-   width:100% rather than 100vw -- 100vw counts the scrollbar, which pushed
-   the band a scrollbar's width off-centre. overflow:hidden keeps the
-   document's 900px layout box (only its *painted* size is scaled) from
-   widening the page and knocking the content off-centre. */
+/* The published Google Doc is 816px wide by nature: its content column is
+   max-width:468pt with 72pt of padding each side, content-box, which is
+   exactly 8.5in at 96dpi. It ships no media queries, so it cannot reflow --
+   the only way to fit it to a screen is to scale the whole document.
+   The iframe therefore keeps a fixed 816px layout width at every size and
+   only its painted size changes, so the document always lays out identically.
+   cv.html sets --doc-scale to (viewport / 816), capped, which makes the
+   document exactly flush with the screen; past the cap it stops growing and
+   the band's centring produces side margins. */
 .gdocbg {
     background-color: #f2f2f2;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: start;
@@ -4384,30 +4387,20 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     margin: 0;
 }
 
-/* The published Google Doc renders at a fixed page width, so it cannot reflow
-   to fill the window -- widening the iframe would only pad it with white.
-   Instead the whole document is scaled, which enlarges the text itself.
-   The iframe keeps its 900px layout width at every size so the document
-   always lays out identically and only its painted size changes.
-   --doc-scale drives both the transform and the height the wrapper reserves,
-   so the scaled document never overlaps the footer. Each step is chosen so
-   900 * scale stays inside the viewport with a small gutter. */
 .scaled-iframe-wrapper {
-    --doc-scale: 0.33;
+    --doc-scale: 1;
     display: flex;
     justify-content: center;
     align-items: start;
     flex-shrink: 0;
-    width: 900px;
+    width: 816px;
     height: calc(1200px * var(--doc-scale));
     transform: scale(var(--doc-scale));
     transform-origin: top center;
-    transition: transform 0.3s;
 }
 
-/* Iframe itself */
 .embed-doc {
-    width: 900px;
+    width: 816px;
     height: 1200px;
     flex-shrink: 0;
     border: none;
@@ -4415,39 +4408,22 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     box-sizing: border-box;
 }
 
-@media (min-width: 361px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.38; }
+/* Fallback ladder for when the fitting script has not run. An inline style
+   from that script wins over these. */
+@media (max-width: 815px) {
+    .scaled-iframe-wrapper { --doc-scale: 0.9; }
 }
 
-@media (min-width: 421px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.44; }
+@media (max-width: 700px) {
+    .scaled-iframe-wrapper { --doc-scale: 0.75; }
 }
 
-@media (min-width: 481px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.51; }
+@media (max-width: 500px) {
+    .scaled-iframe-wrapper { --doc-scale: 0.5; }
 }
 
-@media (min-width: 601px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.64; }
-}
-
-@media (min-width: 768px) {
-    .scaled-iframe-wrapper { --doc-scale: 0.82; }
-}
-
-@media (min-width: 993px) {
-    .scaled-iframe-wrapper { --doc-scale: 1.05; }
-}
-
-@media (min-width: 1200px) {
-    .scaled-iframe-wrapper { --doc-scale: 1.25; }
-}
-
-@media (min-width: 1500px) {
-    .scaled-iframe-wrapper { --doc-scale: 1.45; }
-}
-
-/* Tablets and below: trim the band's own padding too. */
+/* Flush to the screen edge on phones: no band padding to compete with the
+   document's own generous internal margins. */
 @media (max-width: 992px) {
     .gdocbg {
         padding-top: 1rem;
@@ -4457,8 +4433,8 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 @media (max-width: 600px) {
     .gdocbg {
-        padding-top: 0.25rem;
-        padding-bottom: 0.5rem;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
 

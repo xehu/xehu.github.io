@@ -77,6 +77,30 @@
         </div>
     </section>
 
+    <script>
+    // The embedded Google Doc is a fixed 816px wide (8.5in) and ships no
+    // responsive styles, so it is scaled rather than reflowed. Scaling to
+    // exactly (viewport / 816) makes it flush with the screen edge; the cap
+    // stops it growing past ~1.45x, at which point the band centres it and
+    // side margins appear.
+    (function () {
+        var DOC_WIDTH = 816;
+        var MAX_SCALE = 1.45;
+        var wrap = document.querySelector('.scaled-iframe-wrapper');
+        if (!wrap) return;
+
+        function fitDoc() {
+            var avail = document.documentElement.clientWidth;
+            var scale = Math.min(avail / DOC_WIDTH, MAX_SCALE);
+            wrap.style.setProperty('--doc-scale', scale);
+        }
+
+        fitDoc();
+        window.addEventListener('resize', fitDoc);
+        window.addEventListener('orientationchange', fitDoc);
+    })();
+    </script>
+
 
     <footer class="s-footer">
 
