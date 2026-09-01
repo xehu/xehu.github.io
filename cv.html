@@ -107,9 +107,11 @@
     //
     // The markup keeps the plain cross-origin src, so the CV still shows
     // without JavaScript, or if the fetch fails; FALLBACK_HEIGHTS then sizes
-    // it. That table goes slightly stale as the CV grows, which shows up as a
-    // little extra band above the footer -- never as clipped text, because
-    // interpolating this convex curve errs high.
+    // it. It is also what the first paint uses, before the fetch lands, so it
+    // is sampled every 20px of column width: any error here shows up as the
+    // frame resizing slightly once the real measurement arrives. Interpolating
+    // this convex curve errs high, so a stale table costs a little extra band
+    // above the footer, never clipped text.
     (function () {
         var DOC_URL      = 'https://docs.google.com/document/d/e/2PACX-1vSY0CfswGIq9QDYlNr8NFALmQNOURObYsEbFiwhuGakpeT5Yy8A8kQ-3izqJJU-oHNhofDVyS-vlrfS/pub?embedded=true';
         var DOC_WIDTH    = 816;   // the document's natural full width
@@ -120,15 +122,45 @@
         var MIN_FRAME    = 320;   // frame width at which MIN_PAD applies
 
         var FALLBACK_HEIGHTS = [
-            [276, 17663], [316, 14334], [366, 11704], [416, 10159],
-            [466,  9203], [516,  8173], [566,  7474], [624,  6739]
+            [260, 18969], [270, 18215], [280, 17387], [290, 16412], [300, 15603],
+            [310, 14702], [320, 14058], [330, 13433], [340, 12955], [350, 12550],
+            [360, 12146], [370, 11557], [380, 11116], [390, 10840], [400, 10619],
+            [410, 10380], [420, 10086], [430,  9865], [440,  9608], [450,  9442],
+            [460,  9277], [470,  9056], [480,  8762], [490,  8523], [500,  8339],
+            [510,  8228], [520,  8118], [530,  7989], [540,  7842], [550,  7658],
+            [560,  7603], [570,  7364], [580,  7291], [590,  7107], [600,  6978],
+            [610,  6849], [620,  6757], [624,  6739]
         ];
+
+        var CACHE_KEY    = 'cv-doc-height';
 
         var wrap = document.querySelector('.scaled-iframe-wrapper');
         if (!wrap) return;
 
         var frame = wrap.querySelector('.embed-doc');
         var liveDoc = null;
+        var fetchFailed = false;
+
+        // Heights already measured in this browser, keyed by column width, so a
+        // return visit sizes the frame exactly on the first paint instead of
+        // estimating and then correcting once the fetch lands. A stale entry
+        // (the CV changed since) costs one resize on the next visit and is
+        // then overwritten.
+        var cache = {};
+
+        try {
+            cache = JSON.parse(localStorage.getItem(CACHE_KEY)) || {};
+        } catch (e) {
+            cache = {};
+        }
+
+        function remember(column, height) {
+            if (cache[column] === height) return;
+            cache[column] = height;
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+            } catch (e) { /* private mode, or full: not worth handling */ }
+        }
 
         // How much of the document's own side padding to show at this frame
         // width: all of it once the frame fits the document, easing down to
@@ -176,9 +208,23 @@
                 frame.getBoundingClientRect();
                 required = liveDoc.documentElement.scrollHeight - BODY_MARGIN;
                 if (required < 1) required = null;
+                if (required) remember(column, required);
             }
 
-            if (!required) required = fallbackHeight(column);
+            if (!required) {
+                // Before the fetch lands, a cached height from a previous visit
+                // is exact for the document as it was then, so it avoids the
+                // brief resize an estimate would cause. If the fetch has failed
+                // outright there will be no correction, so fall back to
+                // whichever of the two is larger: a cached height that predates
+                // an edit could be too short and clip the end of the CV,
+                // whereas erring long only shows a little extra band.
+                if (fetchFailed) {
+                    required = Math.max(cache[column] || 0, fallbackHeight(column));
+                } else {
+                    required = cache[column] || fallbackHeight(column);
+                }
+            }
 
             // Trim the trailing padding by the same proportion as the sides, so
             // the document's bottom margin matches the ones beside it.
@@ -229,7 +275,9 @@
                 window.requestAnimationFrame(fitDoc);
             })
             .catch(function () {
-                liveDoc = null;   // keep the cross-origin frame and the table
+                liveDoc = null;     // keep the cross-origin frame
+                fetchFailed = true; // and size it conservatively
+                fitDoc();
             });
     })();
     </script>
