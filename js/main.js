@@ -319,29 +319,57 @@
 
         var pxShow      = 500,
             goTopButton = $(".go-top"),
-            $footer     = $(".s-footer");
+            footerEl    = document.querySelector('.s-footer'),
+            footerTop   = Infinity,
+            visible     = null,
+            ticking     = false;
+
+        // Measured once per resize rather than per scroll event: reading
+        // offsets inside a scroll handler forces a synchronous layout on every
+        // frame, which is a real source of scroll jank on phones.
+        function measure() {
+            if (!footerEl) return;
+            footerTop = footerEl.getBoundingClientRect().top + window.pageYOffset;
+        }
 
         // The button is fixed to the bottom-right, so once the footer scrolls
         // into view it sits on top of the footer -- a dark square hovering over
         // the dark footer, which reads as something blocking the end of the
         // page. Hide it again as soon as the footer is reached.
-        function footerInView() {
-            if (!$footer.length) return false;
-            return ($(window).scrollTop() + $(window).height()) > $footer.offset().top;
-        }
+        function apply() {
+            ticking = false;
 
-        function updateGoTop() {
-            if ($(window).scrollTop() >= pxShow && !footerInView()) {
-                if (!goTopButton.hasClass('link-is-visible')) goTopButton.addClass('link-is-visible');
+            var y = window.pageYOffset;
+            var shouldShow = y >= pxShow && (y + window.innerHeight) <= footerTop;
+
+            if (shouldShow === visible) return;   // nothing to write this frame
+            visible = shouldShow;
+
+            if (shouldShow) {
+                goTopButton.addClass('link-is-visible');
             } else {
                 goTopButton.removeClass('link-is-visible');
             }
         }
 
-        updateGoTop();
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(apply);
+        }
 
-        $(window).on('scroll', updateGoTop);
-        $(window).on('resize', updateGoTop);
+        measure();
+        apply();
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', function () {
+            measure();
+            onScroll();
+        });
+        window.addEventListener('load', function () {
+            measure();
+            onScroll();
+        });
     };
 
 

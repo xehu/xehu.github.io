@@ -4408,7 +4408,8 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     /* Shows the document's 468pt (624px) text column only: the iframe inside
        is wider and hangs its padding outside this box, which clips it. */
     width: 624px;
-    height: calc(1200px * var(--doc-scale));
+    /* cv.html measures both of these; the fallbacks only matter without JS. */
+    height: calc(var(--doc-height, 1200px) * var(--doc-scale));
     overflow: hidden;
     transform: scale(var(--doc-scale));
     transform-origin: top center;
@@ -4420,8 +4421,12 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
    the wrapper and is clipped -- the text column then runs the full width. */
 .embed-doc {
     width: 816px;
-    height: 1200px;
+    height: var(--doc-height, 1200px);
     flex-shrink: 0;
+    /* Sized to the whole document (see cv.html) so it never scrolls
+       internally: a short iframe traps the touch gesture, which is what made
+       scrolling stick partway down the CV. The negative bottom margin also
+       clips the document's own trailing padding. */
     margin: 0 -96px;
     border: none;
     display: block;
@@ -4433,7 +4438,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 @media (max-width: 623px) {
     .scaled-iframe-wrapper {
         width: 100%;
-        height: 1200px;
+        height: var(--doc-height, 1200px);
         transform: none;
     }
 
@@ -4454,6 +4459,9 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
     .gdocbg {
         padding-top: 0;
         padding-bottom: 0;
+        /* Not quite edge-to-edge -- a small gutter so the text can breathe. */
+        padding-left: 12px;
+        padding-right: 12px;
     }
 }
 
@@ -4474,14 +4482,6 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Stop the rubber-band overscroll at the end of the page. Past the last
-   element there is nothing to paint but the canvas, which is the same navy as
-   the footer, so bouncing past the bottom shows a blank navy area where the
-   footer should be -- the footer appearing to hide until you scroll back and
-   creep down. */
-html {
-    overscroll-behavior-y: none;
-}
 
 
 /* ===================================================================

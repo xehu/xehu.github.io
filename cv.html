@@ -73,7 +73,7 @@
     ================================================== -->
     <section class="gdocbg">
         <div class="scaled-iframe-wrapper">
-            <iframe class="embed-doc" src="https://docs.google.com/document/d/e/2PACX-1vSY0CfswGIq9QDYlNr8NFALmQNOURObYsEbFiwhuGakpeT5Yy8A8kQ-3izqJJU-oHNhofDVyS-vlrfS/pub?embedded=true"></iframe>
+            <iframe class="embed-doc" scrolling="no" src="https://docs.google.com/document/d/e/2PACX-1vSY0CfswGIq9QDYlNr8NFALmQNOURObYsEbFiwhuGakpeT5Yy8A8kQ-3izqJJU-oHNhofDVyS-vlrfS/pub?embedded=true"></iframe>
         </div>
     </section>
 
@@ -86,22 +86,54 @@
     // scaled up instead, which enlarges the text rather than padding the
     // frame. The scale is exactly 1 at 624px, so the two regimes meet with no
     // jump; the cap stops it growing past 2x on very large monitors.
+    //
+    // The iframe is also sized to the document's FULL height. A short iframe
+    // scrolls internally, and an inner scroll area swallows the touch gesture
+    // once it reaches its end -- that is what made scrolling stick partway
+    // down the page. At full height there is no inner scroll region at all.
+    // We cannot measure a cross-origin document, but its height is very
+    // nearly inversely proportional to the width of its text column (the
+    // total area of text is constant). Measured across five column widths
+    // from 304px to 608px, height = 4450000 / column - 572 fits within a few
+    // percent. SLACK then keeps it on the generous side: measured in the real
+    // embed at a 366px column, the document needs ~11,700px and the fit alone
+    // gives 11,586 -- slightly short, which clips the end of the CV. Any
+    // surplus is harmless: below its last line the document is transparent, so
+    // the extra reads as the grey band, not as blank white. If the CV grows
+    // enough to scroll inside the frame again, raise SLACK.
     (function () {
-        var DOC_WIDTH = 624;   // visible text column, padding clipped
+        var DOC_WIDTH = 624;      // visible text column, padding clipped
         var MAX_SCALE = 2;
+        var DOC_AREA  = 4450000;  // fitted: height ~ DOC_AREA / column
+        var DOC_TRIM  = 572;
+        var SLACK     = 1.05;     // verified margin; see note below
+
         var wrap = document.querySelector('.scaled-iframe-wrapper');
         if (!wrap) return;
 
-        function fitDoc() {
-            var avail = document.documentElement.clientWidth;
+        function docHeightFor(column) {
+            return Math.ceil((DOC_AREA / column - DOC_TRIM) * SLACK);
+        }
 
-            if (avail < DOC_WIDTH) {
-                // Reflow regime -- let the stylesheet own it.
-                wrap.style.removeProperty('--doc-scale');
-                return;
+        function fitDoc() {
+            var avail = wrap.getBoundingClientRect().width || DOC_WIDTH;
+            var column, scale;
+
+            if (document.documentElement.clientWidth < DOC_WIDTH) {
+                column = avail;          // reflow regime: the column is the frame
+                scale  = null;           // let the stylesheet own the transform
+            } else {
+                column = DOC_WIDTH;      // scaled regime: fixed layout, zoomed
+                scale  = Math.min(document.documentElement.clientWidth / DOC_WIDTH, MAX_SCALE);
             }
 
-            wrap.style.setProperty('--doc-scale', Math.min(avail / DOC_WIDTH, MAX_SCALE));
+            wrap.style.setProperty('--doc-height', docHeightFor(column) + 'px');
+
+            if (scale === null) {
+                wrap.style.removeProperty('--doc-scale');
+            } else {
+                wrap.style.setProperty('--doc-scale', scale);
+            }
         }
 
         fitDoc();
