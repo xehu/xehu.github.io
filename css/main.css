@@ -4579,6 +4579,12 @@ button.collapsible {
         padding-bottom: 2rem;
     }
 
+    /* The grid gives footer columns only 10px of side padding on phones, which
+       runs the credit line right up against the screen edges. */
+    .s-footer [class*="col-"] {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+    }
 }
 
 /* Blog index: the intro, the "Latest Writings" heading and the post grid each
