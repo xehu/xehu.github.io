@@ -154,12 +154,12 @@
                 <img  width="150" height="150" alt="Logo for the Team Communication Toolkit" src="images/thumbs/projects/TCT.png">
                 </div>
                 <div class="Rtable-cell">
-                        <h2>team_comm_tools:  A Python Toolkit for Exploring the Communication Space</h2>
+                        <h2>team_comm_tools: A Python Toolkit for Exploring Text Conversations in Groups</h2>
                         <em>Revise and Resubmit at Behavior Research Methods</em><br>
                         <b>Xinlan Emily Hu</b>
                         <button type="button" class="collapsible">Read More</button>
                         <div class="content" style="display: none;">
-                            <p>How a team talks is a rich source of information about its collaboration process, revealing how its members resolve conflicts, coordinate activities, and monitor goal progress. However, the full potential of communication data often goes unrealized: analyzing communication requires a series of contingent decisions about which constructs to study and how to measure them. Consequently, researchers interested in team communication face a high barrier to entry, challenges with reproducibility, and constraints on their ability to capture phenomena that emerge from interactions between multiple conversational dimensions. To address these challenges, we present the Team Communication Toolkit (team_comm_tools on the Python Package Index), an open-source Python package that extracts more than 160 communication features from any corpus of text-based conversations. Our collection of measures allows the analyst to understand the effect of conversational features in the context of a broader family of features that may equivalently explain the phenomenon. Rather than forcing researchers to commit to a single measurement of complex phenomena such as constructiveness or assertiveness, the toolkit’s flexible output format makes it possible to systematically compare measures, isolate confounders, and identify higher-order interactions. We call our general analytical approach the “Communication Space,” reflecting the fact that researchers can now more easily explore the realm of possible ways to analyze conversational data. Finally, we demonstrate the utility of our tool and framework through a case study exploring conflict escalation in both real-world and synthetic data.</p>
+                            <p>Conversation is a rich window to our social world. Through it, humans coordinate their activities, resolve interpersonal disputes, and build lasting social bonds. However, the full potential of conversation data often goes unrealized, because analyzing a conversation requires making contingent and costly decisions about which constructs to study, how to measure them, and at what unit of analysis to do so. At the start of a project, however, an analyst may not know which constructs merit this investment. To lower the cost of a first-pass analysis, I introduce an omnibus tool for quantifying conversation: the Team Communication Toolkit (team_comm_tools on the Python Package Index; abbreviated TCT). The TCT is an open-source Python package that extracts 166 features at three units of analysis (the utterance, the speaker, and the conversation) from any corpus of text-based conversations. Requiring just four input columns and fewer than 10 lines of code, the TCT replaces what would otherwise be a patchwork of processing pipelines with a single streamlined interface. In a case study of 803 online public goods games, I use the TCT to explore which attributes of the talk preceding a decision predict how much a group contributes. I show that conversation is a meaningful signal of group outcomes only during a critical early-game period. 27 measures survive false-discovery-rate correction and replicate on held-out games. Together, they suggest a high-level interpretation that early-game conversations provide an honest signal of engagement, which is influential because social impressions are still nascent.</p>
                             
                             <div class="proj-links">
                                 <a class="proj-link" href="https://osf.io/preprints/psyarxiv/pz98q" target="_blank"><span class="proj-link__icon proj-link__icon--paper" aria-hidden="true"></span>Preprint</a>
@@ -415,7 +415,20 @@
     var i;
 
     for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
+      var button = coll[i];
+      var content = button.nextElementSibling;
+
+      // A second toggle at the foot of the expanded text, so a reader who has
+      // just finished a long abstract can collapse it without scrolling back
+      // up to the "Read Less" button.
+      var collapse = document.createElement("button");
+      collapse.type = "button";
+      collapse.className = "collapse-foot";
+      collapse.textContent = "Collapse";
+      collapse.setAttribute("aria-label", "Collapse this abstract");
+      content.appendChild(collapse);
+
+      button.addEventListener("click", function() {
         this.classList.toggle("active");
         var content = this.nextElementSibling;
         if (content.style.display === "block") {
@@ -425,6 +438,17 @@
           content.style.display = "block";
           this.innerHTML = "Read Less";
         }
+      });
+
+      collapse.addEventListener("click", function() {
+        var content = this.parentElement;
+        var toggle = content.previousElementSibling;
+        content.style.display = "none";
+        toggle.classList.remove("active");
+        toggle.innerHTML = "Read More";
+        // Keep the entry the reader was in on screen: collapsing removes the
+        // text above this point, so the page would otherwise jump.
+        toggle.scrollIntoView({ block: "nearest" });
       });
     }
     </script>
