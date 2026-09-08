@@ -2854,6 +2854,45 @@ body.search-is-visible {
   position: relative;
 }
 
+/* A page title and the first section heading below it read as one
+   introduction rather than two separate blocks, so the margins that stack
+   between them are pulled in. Left to themselves they compound -- the title's
+   own bottom margin, the lead paragraph's, and the heading's top margin --
+   and because headings take a taller top margin on narrow screens the gap
+   grew on a phone, where the room is scarcest. */
+.s-content__header .lead,
+.s-content__header > p:last-child {
+  margin-bottom: 1.6rem;
+}
+
+.s-content__main > center:first-child > h1,
+.s-content__main > h1:first-child,
+.s-content > h1:first-child {
+  margin-top: 1.6rem;
+}
+
+/* Later section headings still open a section, so they keep more room above
+   than the first one does -- but a heading's default top margin plus the
+   blank lines that used to precede it made a gap wide enough to read as the
+   end of the page. */
+.s-content__main > center > h1 {
+  margin-top: 4.8rem;
+  margin-bottom: 0.8rem;
+}
+
+/* The rule drawn under a section heading belongs to the heading, so whatever
+   follows sits just under the line rather than at a heading's usual distance
+   from what precedes it. */
+.s-content__main > center + * {
+  margin-top: 0;
+}
+
+/* Where the title sits in a section of its own (the blog), that section's
+   padding is the gap, so it gives way instead of the margins. */
+.s-content--top-padding--no-bottom + .s-content {
+  padding-top: 2.4rem;
+}
+
 /* -------------------------------------------------------------------
  * ## page and single entry main content
  * ------------------------------------------------------------------- */
@@ -4718,9 +4757,19 @@ button.collapsible {
 /* Marker key for the author lists below it: quieter than the citations it
    explains, and centred under the page heading. */
 .author-key {
-    margin: -1.6rem 0 3.2rem;
+    margin: 0 0 3.2rem;
     text-align: center;
     font-size: 1.4rem;
     font-style: italic;
     color: #8f9195;
+    /* One line at every width: broken in two it reads as a sentence rather
+       than a key, and the wording is short enough to hold down to a 280px
+       phone. Narrower still, the key steps down a size rather than wrap. */
+    white-space: nowrap;
+}
+
+@media only screen and (max-width:300px) {
+    .author-key {
+        font-size: 1.25rem;
+    }
 }
